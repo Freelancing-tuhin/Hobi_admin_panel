@@ -2,7 +2,18 @@ import { Label, Select } from 'flowbite-react';
 import CardBox from 'src/components/shared/CardBox';
 
 const ProductData = ({ eventData, setEventData }: any) => {
-  const catOptions = ['Computer', 'Watches', 'Headphone', 'Beauty', 'Fashion', 'Footwear'];
+  const catOptions = [
+    'Music',
+    'Concerts',
+    'Festivals',
+    'Comedy',
+    'Theater',
+    'Parties',
+    'Workshops',
+    'Sports',
+    'Food & Drinks',
+    'Tech',
+  ];
 
   const handleCategoryChange = (e: any) => {
     setEventData((prevData: any) => ({ ...prevData, category: e.target.value }));

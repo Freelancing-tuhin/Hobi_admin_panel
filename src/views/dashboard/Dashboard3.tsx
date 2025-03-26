@@ -92,6 +92,7 @@ const Dashboard3 = () => {
   useEffect(() => {
     BookingPerformance();
   }, [id]);
+
   useEffect(() => {
     fetchUsers();
   }, [id]);
@@ -111,13 +112,13 @@ const Dashboard3 = () => {
   return (
     <>
       <LockScreen />
-      <BreadcrumbComp title="Event Stats" items={BCrumb} />
+      <BreadcrumbComp title={`Event: ${stats?.eventDetails?.title}`} items={BCrumb} />
       <div className="grid grid-cols-12 gap-30">
         <div className="col-span-12">
           <ColorBoxes stats={stats} />
         </div>
         <div className="lg:col-span-8 col-span-12">
-          <RevenueByProduct usersList={usersList} />
+          <RevenueByProduct usersList={usersList} fetchUsers={fetchUsers} />
         </div>
         <div className="lg:col-span-4 col-span-12">
           <SalesOverview />

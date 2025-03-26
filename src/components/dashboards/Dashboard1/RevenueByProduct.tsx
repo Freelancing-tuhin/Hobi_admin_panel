@@ -1,14 +1,27 @@
 import { useState } from 'react';
 import CardBox from '../../shared/CardBox';
-import { Badge, Table } from 'flowbite-react';
+import { Badge, Table, Select } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import React from 'react';
 import SimpleBar from 'simplebar-react';
+import { formatDateTime } from 'src/service/formatDate';
+import { updateBookingStatus } from 'src/service/updateBookingStatus';
 
-const RevenueByProduct = ({ usersList }: any) => {
+const RevenueByProduct = ({ usersList, fetchUsers }: any) => {
   const [activeTab, setActiveTab] = useState('All');
+
   const handleTabClick = (tab: React.SetStateAction<string>) => {
     setActiveTab(tab);
+  };
+
+  const handleStatusChange = async (bookingId: string, newStatus: string) => {
+    try {
+      await updateBookingStatus(bookingId, newStatus);
+      fetchUsers();
+    } catch (error) {
+      console.error('Failed to update booking status:', error);
+      alert('Failed to update booking status');
+    }
   };
 
   return (
@@ -19,7 +32,6 @@ const RevenueByProduct = ({ usersList }: any) => {
             <h5 className="card-title">Users List</h5>
           </div>
         </div>
-        {/* Tabs */}
         <div className="overflow-x-auto">
           <SimpleBar>
             <div className="flex gap-4">
@@ -27,11 +39,12 @@ const RevenueByProduct = ({ usersList }: any) => {
                 <div
                   key={tab}
                   onClick={() => handleTabClick(tab)}
-                  className={`py-3 px-6 rounded-tw cursor-pointer text-dark text-sm font-semibold text-center flex gap-2 items-center bg-muted dark:bg-dark hover:bg-lightprimary dark:hover:bg-lightprimary ${
-                    activeTab === tab
-                      ? 'text-white bg-primary dark:bg-primary hover:bg-primaryemphasis dark:hover:bg-primaryemphasis'
-                      : 'dark:text-white'
-                  }`}
+                  className={`py-3 px-6 rounded-tw cursor-pointer text-dark text-sm font-semibold text-center
+                     flex gap-2 items-center bg-muted dark:bg-dark hover:bg-lightprimary dark:hover:bg-lightprimary ${
+                       activeTab === tab
+                         ? 'text-white bg-primary dark:bg-primary hover:bg-primaryemphasis dark:hover:bg-primaryemphasis'
+                         : 'dark:text-white'
+                     }`}
                 >
                   <Icon
                     icon={
@@ -50,17 +63,15 @@ const RevenueByProduct = ({ usersList }: any) => {
             </div>
           </SimpleBar>
         </div>
-
-        {/* Tabs Content */}
         <div className="overflow-x-auto">
           <Table>
             <Table.Head className="border-b border-bordergray dark:border-darkborder">
               <Table.HeadCell className="py-2 px-3 ps-0 text-ld font-normal">Name</Table.HeadCell>
-              <Table.HeadCell className="text-ld font-normal">Age</Table.HeadCell>
               <Table.HeadCell className="text-ld font-normal">Email</Table.HeadCell>
               <Table.HeadCell className="text-ld font-normal">Gender</Table.HeadCell>
-              <Table.HeadCell className="text-ld font-normal">Address</Table.HeadCell>
+              <Table.HeadCell className="text-ld font-normal">Booking Date</Table.HeadCell>
               <Table.HeadCell className="text-ld font-normal">Amount Paid</Table.HeadCell>
+              <Table.HeadCell className="text-ld font-normal">Booking Status</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y divide-bordergray dark:divide-darkborder">
               {usersList &&
@@ -75,9 +86,7 @@ const RevenueByProduct = ({ usersList }: any) => {
                       <Table.Cell className="whitespace-nowrap ps-0">
                         <p className="text-sm">{user.userDetails.full_name}</p>
                       </Table.Cell>
-                      <Table.Cell className="whitespace-nowrap">
-                        <p className="text-sm">{user.userDetails.age}</p>
-                      </Table.Cell>
+
                       <Table.Cell className="whitespace-nowrap">
                         <p className="text-sm">{user.userDetails.email}</p>
                       </Table.Cell>
@@ -89,10 +98,24 @@ const RevenueByProduct = ({ usersList }: any) => {
                         </Badge>
                       </Table.Cell>
                       <Table.Cell className="whitespace-nowrap">
-                        <p className="text-sm">{user.userDetails.address}</p>
+                        <p className="text-sm">{formatDateTime(user.bookingDate)}</p>
                       </Table.Cell>
                       <Table.Cell className="whitespace-nowrap">
                         <p className="text-ld">₹{user.amountPaid}</p>
+                      </Table.Cell>
+                      <Table.Cell className="whitespace-nowrap">
+                        <Select
+                          value={user.bookingStatus}
+                          onChange={(e) => handleStatusChange(user.bookingId, e.target.value)}
+                        >
+                          {['Pending', 'check-in', 'in-progress', 'Completed', 'Canceled'].map(
+                            (status) => (
+                              <option key={status} value={status}>
+                                {status}
+                              </option>
+                            ),
+                          )}
+                        </Select>
                       </Table.Cell>
                     </Table.Row>
                   ))}
