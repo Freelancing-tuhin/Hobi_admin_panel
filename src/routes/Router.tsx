@@ -5,6 +5,7 @@ import { createBrowserRouter, Navigate } from 'react-router';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import FrontendLayout from 'src/layouts/blank/FrontendLayout';
 import { AuthContext } from 'src/context/authContext/AuthContext';
+import BookingList from 'src/views/apps/eCommerce/BookingList';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -240,12 +241,22 @@ const Router = [
           </ProtectedRoute>
         ),
       },
+
       {
         path: '/Event/add',
         exact: true,
         element: (
           <ProtectedRoute>
             <EcommerceAddProduct />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/Booking/list',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <BookingList />
           </ProtectedRoute>
         ),
       },

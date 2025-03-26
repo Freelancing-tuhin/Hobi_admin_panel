@@ -32,16 +32,22 @@ const SidebarContent: MenuItem[] = [
         url: '/',
       },
       {
+        name: 'Add Event',
+        icon: 'solar:widget-add-line-duotone',
+        id: uniqueId(),
+        url: '/Event/add',
+      },
+      {
         name: 'My Events',
         icon: 'solar:notebook-linear',
         id: uniqueId(),
         url: '/Event/list',
       },
       {
-        name: 'Add Event',
-        icon: 'solar:widget-add-line-duotone',
+        name: 'All Bookings',
+        icon: 'solar:inbox-line-broken',
         id: uniqueId(),
-        url: '/Event/add',
+        url: '/Booking/list',
       },
       // {
       //   name: 'Dashboard2',
