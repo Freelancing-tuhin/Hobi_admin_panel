@@ -3,8 +3,9 @@ import CardBox from '../../shared/CardBox';
 import { Table, Button } from 'flowbite-react';
 import SimpleBar from 'simplebar-react';
 import { formatDateTime } from 'src/service/formatDate';
+import { updateReviewStatusToAdmin } from 'src/service/review';
 
-const Reviews = ({ usersList }: any) => {
+const Reviews = ({ usersList, EventReviews }: any) => {
   const [activeGender] = useState('All');
   const [activeRating, setActiveRating] = useState<number | null>(null);
 
@@ -14,6 +15,12 @@ const Reviews = ({ usersList }: any) => {
 
   const handleSendMail = (email: string) => {
     window.location.href = `mailto:${email}`;
+  };
+
+  const handleUpdateStatus = async (reviewId: any) => {
+    await updateReviewStatusToAdmin(reviewId);
+    EventReviews();
+    // Optionally, trigger a refresh or update UI state
   };
 
   return (
@@ -76,7 +83,7 @@ const Reviews = ({ usersList }: any) => {
               .map((user: any, index: number) => (
                 <Table.Row key={index}>
                   <Table.Cell className="whitespace-nowrap ps-0">
-                    <p className="text-sm">{user?.full_name}</p>
+                    <p className="text-sm">{user?.userId?.full_name}</p>
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap ps-0">
                     <p className="text-sm">{formatDateTime(user?.updatedAt)}</p>
@@ -88,9 +95,15 @@ const Reviews = ({ usersList }: any) => {
                     <p className="text-sm">{user?.comment}</p>
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap">
-                    <Button size="xs" onClick={() => handleSendMail(user?.userId?.email)}>
-                      Send Mail
-                    </Button>
+                    {user?.review_status === 'Organizer' ? (
+                      <Button size="xs" onClick={() => handleUpdateStatus(user?._id)}>
+                        Report
+                      </Button>
+                    ) : user?.review_status === 'Admin' ? (
+                      <span className="text-red-500 font-semibold">Reported</span>
+                    ) : (
+                      <span className="text-gray-500 font-semibold">Reverted</span>
+                    )}
                   </Table.Cell>
                 </Table.Row>
               ))}

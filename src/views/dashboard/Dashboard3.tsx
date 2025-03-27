@@ -127,7 +127,7 @@ const Dashboard3 = () => {
           <YourPerformance performence={performance} />
         </div>
         <div className="lg:col-span-7 col-span-12">
-          <Reviews usersList={reviewList} />
+          <Reviews usersList={reviewList} EventReviews={EventReviews} />
         </div>
 
         {/* <div className="lg:col-span-8 col-span-12">
