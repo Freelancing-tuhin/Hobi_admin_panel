@@ -7,13 +7,13 @@ const BCrumb = [
     title: 'Home',
   },
   {
-    title: 'User Profile',
+    title: 'Business Profile',
   },
 ];
 const UserProfile = () => {
   return (
     <>
-      <BreadcrumbComp title="User Profile" items={BCrumb} />
+      <BreadcrumbComp title="Business Profile" items={BCrumb} />
       <UserProfileApp />
     </>
   );
