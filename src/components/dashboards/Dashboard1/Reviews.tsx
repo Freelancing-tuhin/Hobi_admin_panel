@@ -13,9 +13,9 @@ const Reviews = ({ usersList, EventReviews }: any) => {
     setActiveRating(rating);
   };
 
-  const handleSendMail = (email: string) => {
-    window.location.href = `mailto:${email}`;
-  };
+  // const handleSendMail = (email: string) => {
+  //   window.location.href = `mailto:${email}`;
+  // };
 
   const handleUpdateStatus = async (reviewId: any) => {
     await updateReviewStatusToAdmin(reviewId);
