@@ -25,7 +25,7 @@ const LockScreen = () => {
   const hasAllRequiredFields = REQUIRED_FIELDS.every((field) => user?.[field]);
   const hasbankRequiredFields = REQUIRED_FIELDS_2.every((field) => user?.[field]);
 
-  if (hasAllRequiredFields && user?.is_verified) {
+  if (user?.is_verified) {
     return null; // Don't show LockScreen if user is verified
   }
 

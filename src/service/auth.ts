@@ -10,15 +10,24 @@ interface LoginResponse {
   };
 }
 
-export const loginOrganizer = async (email: string, password: string): Promise<LoginResponse> => {
+export const getOtp = async (phone: string) => {
   try {
-    const response = await axios.post<LoginResponse>(
-      `${API_BASE_URL}/api/v1/auth/organizer-login`,
-      {
-        email,
-        password,
-      },
-    );
+    const response = await axios.post(`${API_BASE_URL}/api/v1/auth/get-otp`, {
+      phone,
+    });
+
+    return response.data;
+  } catch (error: any) {
+    console.error('Login error:', error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || 'Login failed');
+  }
+};
+
+export const loginOrganizer = async (phone: string) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/v1/auth/organizer-login`, {
+      phone,
+    });
 
     return response.data;
   } catch (error: any) {
