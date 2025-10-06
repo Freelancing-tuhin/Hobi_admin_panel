@@ -1,15 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from 'src/config';
 
-interface LoginResponse {
-  token: string;
-  user: {
-    id: string;
-    email: string;
-    name?: string;
-  };
-}
-
 export const getOtp = async (phone: string) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/v1/auth/get-otp`, {

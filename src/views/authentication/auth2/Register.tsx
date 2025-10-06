@@ -2,10 +2,12 @@ import { useContext, useState } from 'react';
 import CardBox from 'src/components/shared/CardBox';
 import { Button, Label, TextInput } from 'flowbite-react';
 import FullLogo from 'src/layouts/full/shared/logo/FullLogo';
-import { organizerSignup } from 'src/service/auth';
+import { organizerSignup, getOtp } from 'src/service/auth';
+import { decryptDataFrontend } from 'src/service/deCrypt';
 import { Link, useNavigate } from 'react-router';
 import BoxedSocialButtons from '../authforms/BoxedSocialButtons';
 import { AuthContext } from 'src/context/authContext/AuthContext';
+import { OtpInput } from './OtpInput';
 
 const Register = () => {
   const { login }: any = useContext(AuthContext);
@@ -21,22 +23,52 @@ const Register = () => {
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkAJEkJQ1WumU0hXNpXdgBt9NUKc0QDVIiaw&s',
   });
 
+  const [phone, setPhone] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '']);
+  const [apiOtp, setApiOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [step, setStep] = useState(1); // Step tracking
+  const [step, setStep] = useState(1); // 1: enter phone, 2: verify otp, 3: fill details
 
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleNext = () => {
-    if (!formData.email) {
-      setError('Please enter your email.');
+  const handleSendOtp = async () => {
+    if (!phone) {
+      setError('Please enter your phone number.');
       return;
     }
+    setLoading(true);
     setError('');
-    setStep(2);
+    try {
+      const response = await getOtp(phone);
+      setApiOtp(decryptDataFrontend(response?.result));
+      setSuccess('OTP sent to your phone.');
+      setStep(2);
+      // store phone in formData for signup
+      setFormData((prev: any) => ({ ...prev, phone }));
+    } catch (err: any) {
+      setError(err?.message || 'Failed to send OTP');
+    }
+    setLoading(false);
+  };
+
+  const handleOtpChange = (index: number, value: string) => {
+    if (!/^[0-9]?$/.test(value)) return;
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Auto-focus next box
+    const nextInput = document.getElementById(`otp-${index + 1}`);
+    if (value && nextInput) nextInput.focus();
+
+    if (newOtp.join('') === apiOtp) {
+      setSuccess('OTP verified. Please complete your details.');
+      setStep(3);
+    }
   };
 
   const handleSignup = async () => {
@@ -65,32 +97,76 @@ const Register = () => {
               <div className="py-14 lg:px-6">
                 <FullLogo />
                 <h3 className="text-3xl font-semibold my-5 text-gray-800">Create Your Account</h3>
-                <BoxedSocialButtons title="Or sign up with email" />
+                {step === 1 && (
+                  <div className="">
+                    Enter your phone number to receive a verification code (OTP). After verifying
+                    your phone, you can complete your registration details.
+                  </div>
+                )}
+                {/* <BoxedSocialButtons title="Or sign up with phone" /> */}
                 {error && <p className="text-red-500 text-sm">{error}</p>}
                 {success && <p className="text-green-500 text-sm">{success}</p>}
-                <form className="mt-6">
-                  <div className="mb-4 w-full">
-                    <Label htmlFor="email" value="Email Address" />
-                    <TextInput
-                      id="email"
-                      name="email"
-                      type="email"
-                      sizing="md"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Enter your email"
-                    />
-                  </div>
+                <div className="mt-6">
+                  {step === 1 && (
+                    <>
+                      <div className="mb-4 w-full">
+                        <Label htmlFor="phone" value="Phone Number" />
+                        <TextInput
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          sizing="md"
+                          value={phone}
+                          onChange={(e: any) => setPhone(e.target.value)}
+                          placeholder="Enter your phone number"
+                        />
+                      </div>
+                      <Button
+                        type="button"
+                        onClick={handleSendOtp}
+                        disabled={loading}
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition"
+                      >
+                        {loading ? 'Sending OTP...' : 'Send OTP'}
+                      </Button>
+                    </>
+                  )}
 
-                  <Button
-                    type="button"
-                    onClick={step === 1 ? handleNext : handleSignup}
-                    disabled={loading}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition"
-                  >
-                    {loading ? 'Processing...' : step === 1 ? 'Go Next' : 'Sign Up Account'}
-                  </Button>
-                </form>
+                  {step === 2 && (
+                    <>
+                      <p className="text-sm mb-4">Enter the 4-digit OTP sent to your phone.</p>
+                      <OtpInput otp={otp} handleOtpChange={handleOtpChange} />
+                    </>
+                  )}
+
+                  {step === 3 && (
+                    <>
+                      <form className="mt-6">
+                        <div className="mb-4 w-full">
+                          <Label htmlFor="email" value="Email Address" />
+                          <TextInput
+                            id="email"
+                            name="email"
+                            type="email"
+                            sizing="md"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="Enter your email"
+                          />
+                        </div>
+
+                        <Button
+                          type="button"
+                          onClick={handleSignup}
+                          disabled={loading}
+                          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition"
+                        >
+                          {loading ? 'Processing...' : 'Sign Up Account'}
+                        </Button>
+                      </form>
+                    </>
+                  )}
+                </div>
                 <div className="flex gap-2 text-sm font-medium mt-6 items-center text-gray-700">
                   <p>Already have an Account?</p>
                   <Link to="/auth/auth2/login" className="text-blue-600 font-semibold">
@@ -101,7 +177,7 @@ const Register = () => {
             </div>
             {/* Right Section - Image or Inputs */}
             <div className="xl:col-span-6 col-span-12 flex flex-col justify-center items-center p-8">
-              {step === 1 ? (
+              {step === 1 || step === 2 ? (
                 <img
                   src={
                     'https://img.freepik.com/free-vector/privacy-policy-concept-illustration_114360-7853.jpg?t=st=1740770398~exp=1740773998~hmac=d1142efdf8858c87eb30efbd6711f0132f2083deefb6822cb78d4af75d624639&w=900'
@@ -110,7 +186,7 @@ const Register = () => {
                   className="w-full max-w-md"
                 />
               ) : null}
-              {step === 2 && (
+              {step === 3 && (
                 <>
                   <div className="mb-4 w-full">
                     <Label htmlFor="full_name" value="Full Name" />
