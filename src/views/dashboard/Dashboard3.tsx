@@ -117,12 +117,10 @@ const Dashboard3 = () => {
         <div className="col-span-12">
           <ColorBoxes stats={stats} />
         </div>
-        <div className="lg:col-span-8 col-span-12">
+        <div className="lg:col-span-12 col-span-12">
           <RevenueByProduct usersList={usersList} fetchUsers={fetchUsers} />
         </div>
-        <div className="lg:col-span-4 col-span-12">
-          <SalesOverview />
-        </div>
+
         <div className="lg:col-span-5 col-span-12">
           <YourPerformance performence={performance} />
         </div>

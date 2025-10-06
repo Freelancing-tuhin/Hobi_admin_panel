@@ -54,56 +54,59 @@ const BookingsTable = () => {
             {/* <Table.HeadCell>Action</Table.HeadCell> */}
           </Table.Head>
           <Table.Body className="divide-y divide-border dark:divide-darkborder">
-            {bookings.map((booking: any) => (
-              <Table.Row key={booking._id}>
-                <Table.Cell>{booking.userId?.full_name}</Table.Cell>
-                <Table.Cell>{formatDateTime(booking?.updatedAt)}</Table.Cell>
-                <Table.Cell className="overflow-hidden whitespace-nowrap text-ellipsis max-w-[16ch]">
-                  {booking?.eventId?.title}
-                </Table.Cell>
-                <Table.Cell className="whitespace-nowrap">
-                  <Select
-                    value={booking.booking_status}
-                    onChange={(e) => handleStatusChange(booking._id, e.target.value)}
-                  >
-                    {['Pending', 'check-in', 'in-progress', 'Completed', 'Canceled'].map(
-                      (status) => (
-                        <option key={status} value={status}>
-                          {status}
-                        </option>
-                      ),
-                    )}
-                  </Select>
-                </Table.Cell>
-                <Table.Cell>
-                  <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-md ${
-                      booking.paymentStatus === 'Completed'
-                        ? 'bg-green-600 text-green-100'
-                        : 'bg-yellow-400 text-red-800'
-                    }`}
-                  >
-                    {booking.paymentStatus}
-                  </span>
-                </Table.Cell>
+            {bookings &&
+              bookings.map((booking: any) => (
+                <Table.Row key={booking._id}>
+                  <Table.Cell>{booking.userId?.full_name}</Table.Cell>
+                  <Table.Cell>{formatDateTime(booking?.updatedAt)}</Table.Cell>
+                  <Table.Cell className="overflow-hidden whitespace-nowrap text-ellipsis max-w-[16ch]">
+                    {booking?.eventId?.title}
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap">
+                    <Select
+                      value={booking.booking_status}
+                      onChange={(e) => handleStatusChange(booking._id, e.target.value)}
+                    >
+                      {['Pending', 'check-in', 'in-progress', 'Completed', 'Canceled'].map(
+                        (status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ),
+                      )}
+                    </Select>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span
+                      className={`px-2 py-1 text-xs font-semibold rounded-md ${
+                        booking.paymentStatus === 'Completed'
+                          ? 'bg-green-600 text-green-100'
+                          : 'bg-yellow-400 text-red-800'
+                      }`}
+                    >
+                      {booking.paymentStatus}
+                    </span>
+                  </Table.Cell>
 
-                <Table.Cell>{booking.ticketsCount}</Table.Cell>
-                <Table.Cell>{booking.amountPaid}</Table.Cell>
-                {/* <Table.Cell>
+                  <Table.Cell>{booking.ticketsCount}</Table.Cell>
+                  <Table.Cell>{booking.amountPaid}</Table.Cell>
+                  {/* <Table.Cell>
                 <Button color="blue" size="xs" className="bg-red-500">
                   <Icon icon="hugeicons:delete-03" height="19" />
                 </Button>
               </Table.Cell> */}
-              </Table.Row>
-            ))}
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table>
         <div className="flex justify-center mb-4 mt-2 ">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(page) => setCurrentPage(page)}
-          />
+          {bookings.length > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          )}
         </div>
       </div>
     </CardBox>

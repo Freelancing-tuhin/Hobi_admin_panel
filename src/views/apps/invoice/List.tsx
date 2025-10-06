@@ -17,9 +17,7 @@ const InvoiceListing = () => {
   return (
     <InvoiceProvider>
       <BreadcrumbComp title="Invoice List" items={BCrumb} />
-      <CardBox>
-        <InvoiceList />
-      </CardBox>
+      <CardBox>{/* <InvoiceList /> */}</CardBox>
     </InvoiceProvider>
   );
 };

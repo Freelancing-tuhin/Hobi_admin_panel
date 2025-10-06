@@ -25,12 +25,12 @@ const SidebarContent: MenuItem[] = [
   {
     heading: '',
     children: [
-      {
-        name: 'Dashboard',
-        icon: 'solar:atom-line-duotone',
-        id: uniqueId(),
-        url: '/',
-      },
+      // {
+      //   name: 'Dashboard',
+      //   icon: 'solar:atom-line-duotone',
+      //   id: uniqueId(),
+      //   url: '/',
+      // },
       {
         name: 'Add Event',
         icon: 'solar:widget-add-line-duotone',
@@ -57,7 +57,7 @@ const SidebarContent: MenuItem[] = [
       // },
 
       {
-        name: 'Reports and Help',
+        name: 'Contacts & Support',
         icon: 'solar:call-chat-line-duotone',
         id: uniqueId(),
         url: '/reports',

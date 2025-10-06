@@ -67,6 +67,7 @@ const RevenueByProduct = ({ usersList, fetchUsers }: any) => {
           <Table>
             <Table.Head className="border-b border-bordergray dark:border-darkborder">
               <Table.HeadCell className="py-2 px-3 ps-0 text-ld font-normal">Name</Table.HeadCell>
+              <Table.HeadCell className="text-ld font-normal">Phone</Table.HeadCell>
               <Table.HeadCell className="text-ld font-normal">Email</Table.HeadCell>
               <Table.HeadCell className="text-ld font-normal">Gender</Table.HeadCell>
               <Table.HeadCell className="text-ld font-normal">Booking Date</Table.HeadCell>
@@ -87,6 +88,9 @@ const RevenueByProduct = ({ usersList, fetchUsers }: any) => {
                         <p className="text-sm">{user.userDetails.full_name}</p>
                       </Table.Cell>
 
+                      <Table.Cell className="whitespace-nowrap">
+                        <p className="text-sm">{user.userDetails.phone}</p>
+                      </Table.Cell>
                       <Table.Cell className="whitespace-nowrap">
                         <p className="text-sm">{user.userDetails.email}</p>
                       </Table.Cell>

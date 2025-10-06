@@ -217,8 +217,7 @@ const Router = [
         element: (
           <ProtectedRoute>
             <>
-              <Dashboard1 />
-              <Dashboard2 />
+              <EcomProductList />
             </>
           </ProtectedRoute>
         ),
