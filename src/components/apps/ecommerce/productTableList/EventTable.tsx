@@ -106,7 +106,7 @@ const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
                     <Button
                       color="blue"
                       size="xs"
-                      className="bg-blue-500"
+                      className="bg-[#b03052]"
                       // onClick={() => openEditModal(service)}
                     >
                       <Icon icon="solar:presentation-graph-bold" height="18" />

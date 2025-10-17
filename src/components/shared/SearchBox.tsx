@@ -16,7 +16,7 @@ const SearchBox = ({ searchText, setSearchText, getOrganizer, placeholder }: any
       />
       <button
         onClick={handleSearch}
-        className="bg-blue-500 flex items-center gap-1  text-white px-4 py-2.5 rounded-md hover:bg-blue-600 transition-all"
+        className="bg-[#b03052] flex items-center gap-1  text-white px-4 py-2.5 rounded-md hover:bg-[#b03052] transition-all"
       >
         <Icon icon="solar:minimalistic-magnifer-linear" height="18" />
         Search

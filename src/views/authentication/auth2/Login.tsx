@@ -73,13 +73,15 @@ const Login = () => {
           <div className="grid grid-cols-12">
             <div className="xl:col-span-6 col-span-12 px-8 xl:border-e border-ld">
               <div className="md:py-14 py-8 lg:px-6">
-                <FullLogo />
-                <h3 className="md:text-34 text-2xl md:mb-2 md:mt-8 my-5">Admin Login</h3>
+                {/* <FullLogo /> */}
+                <div className="text-[#b03052] font-semibold text-4xl">Hobi App Login</div>
+                {/* <h3 className="md:text-34 text-2xl md:mb-2 md:mt-8 my-5">Admin Login</h3> */}
                 {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
                 {!showOtpInput ? (
                   <form onSubmit={handlePhoneSubmit}>
                     <p className="text-ld mb-8 opacity-80 text-sm font-medium mt-4">
+                      wellcome to Hobi Organizers Portal.
                       Please enter your phone number to receive an OTP for verification.
                     </p>
                     <div className="mb-4">
@@ -106,8 +108,19 @@ const Login = () => {
                 ) : (
                   <OtpInput otp={otp} handleOtpChange={handleOtpChange} />
                 )}
-              </div>
+                            <div className="text-ld mb-8 opacity-80 text-sm font-medium mt-4">
+              Dont have an account?{' '}
+              <span
+                className="text-sky dark:text-sky cursor-pointer"
+                onClick={() => navigate('/auth/auth2/register')}
+              >
+                Register here
+              </span>
             </div>
+              </div>
+              
+            </div>
+
 
             <div className="xl:col-span-6 col-span-12 xl:block hidden">
               <BoxedAuthSlider />

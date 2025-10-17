@@ -17,21 +17,11 @@ const SidebarLayout = () => {
             aria-label="Sidebar with multi-level dropdown example"
           >
             <div className="px-6 py-4 flex items-center brand-logo">
-              <FullLogo />
+              {/* <FullLogo /> */}
             </div>
             <SimpleBar className="h-[calc(100vh_-_85px)] ">
               <Sidebar.Items className="rtl:pe-0 rtl:ps-3 px-4 mt-2">
-                <div className="collpase-items">
-                  <div className="flex items-center space-x-4">
-                    <div className="bg-blue-500 rounded-xl h-16 w-16 flex items-center justify-center text-white text-2xl font-bold">
-                      T
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold">Tuhin Thakur</p>
-                      <p className="text-sm font-medium text-gray-600">(Organizer)</p>
-                    </div>
-                  </div>
-                </div>
+                
 
                 <Sidebar.ItemGroup className="sidebar-nav">
                   {SidebarContent.map((item, index) => (

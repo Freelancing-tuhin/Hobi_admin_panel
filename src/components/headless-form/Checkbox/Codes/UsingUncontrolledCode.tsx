@@ -15,7 +15,7 @@ const UsingUncontrolledCode = () => {
             <Checkbox
               defaultChecked={true}
               name="terms-of-service"
-              className="group block size-4 rounded border bg-white data-[checked]:bg-blue-500"
+              className="group block size-4 rounded border bg-white data-[checked]:bg-[#b03052]"
             >
               <svg
                 className="stroke-white opacity-0 group-data-[checked]:opacity-100"

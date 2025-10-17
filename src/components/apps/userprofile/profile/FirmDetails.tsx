@@ -96,7 +96,7 @@ const FirmDetails = () => {
           </div>
           <button
             onClick={handleUpdate}
-            className="w-2/4 bg-blue-600 text-white py-2 mt-4 rounded-md hover:bg-blue-700 transition"
+            className="w-2/4 bg-[#b03052] text-white py-2 mt-4 rounded-md hover:bg-blue-700 transition"
           >
             Update
           </button>

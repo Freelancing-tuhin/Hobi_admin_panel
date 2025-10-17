@@ -19,7 +19,7 @@ const DisableCheckBox = () => {
               <Checkbox
                 checked={enabled}
                 onChange={setEnabled}
-                className="group block size-4 rounded border bg-white data-[checked]:bg-blue-500 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[checked]:data-[disabled]:bg-gray-500"
+                className="group block size-4 rounded border bg-white data-[checked]:bg-[#b03052] data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[checked]:data-[disabled]:bg-gray-500"
               >
                 <svg
                   className="stroke-white opacity-0 group-data-[checked]:opacity-100"
@@ -44,7 +44,7 @@ const DisableCheckBox = () => {
               <Checkbox
                 checked={enabled}
                 onChange={setEnabled}
-                className="group block size-4 rounded border bg-white data-[checked]:bg-blue-500 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[checked]:data-[disabled]:bg-gray-500"
+                className="group block size-4 rounded border bg-white data-[checked]:bg-[#b03052] data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[checked]:data-[disabled]:bg-gray-500"
               >
                 <svg
                   className="stroke-white opacity-0 group-data-[checked]:opacity-100"

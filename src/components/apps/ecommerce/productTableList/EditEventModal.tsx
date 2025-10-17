@@ -60,7 +60,7 @@ const EditEventModal = ({ open, onClose, eventData, getEvents }: any) => {
         {/* Progress Bar */}
         <div className="relative w-full h-2 bg-gray-200 rounded overflow-hidden">
           <div
-            className="h-full bg-blue-500 transition-all"
+            className="h-full bg-[#b03052] transition-all"
             style={{ width: `${(step / 3) * 100}%` }}
           ></div>
         </div>

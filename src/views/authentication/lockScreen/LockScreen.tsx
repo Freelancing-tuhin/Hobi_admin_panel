@@ -51,7 +51,7 @@ const LockScreen = () => {
         ) : null}
         <Link
           to={'/apps/user-profile/profile'}
-          className="bg-blue-500 text-white py-2 px-4 mt-3 rounded cursor-pointer"
+          className="bg-[#b03052] text-white py-2 px-4 mt-3 rounded cursor-pointer"
         >
           Go back to profile page
         </Link>

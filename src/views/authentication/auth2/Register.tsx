@@ -95,7 +95,7 @@ const Register = () => {
             {/* Left Section - Form */}
             <div className="xl:col-span-6 col-span-12 px-8 xl:border-e border-gray-300">
               <div className="py-14 lg:px-6">
-                <FullLogo />
+                {/* <FullLogo /> */}
                 <h3 className="text-3xl font-semibold my-5 text-gray-800">Create Your Account</h3>
                 {step === 1 && (
                   <div className="">
@@ -125,7 +125,7 @@ const Register = () => {
                         type="button"
                         onClick={handleSendOtp}
                         disabled={loading}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition"
+                        className="w-full bg-[#b03052] hover:bg-gray-700 text-white py-1 rounded-md transition"
                       >
                         {loading ? 'Sending OTP...' : 'Send OTP'}
                       </Button>
@@ -159,7 +159,7 @@ const Register = () => {
                           type="button"
                           onClick={handleSignup}
                           disabled={loading}
-                          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition"
+                                                 className="w-full bg-[#b03052] hover:bg-gray-700 text-white py-1 rounded-md transition"
                         >
                           {loading ? 'Processing...' : 'Sign Up Account'}
                         </Button>

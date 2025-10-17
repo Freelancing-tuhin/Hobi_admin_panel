@@ -112,7 +112,7 @@ const DocumentUploadStepper = () => {
                 <div className="hidden">{label}</div>
                 <div
                   className={`w-5 h-5 flex items-center justify-center rounded-full text-xs font-bold 
-                ${index === currentStep ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}
+                ${index === currentStep ? 'bg-[#b03052] text-white' : 'bg-gray-200 text-gray-700'}
                 ${index < currentStep ? 'bg-green-500 text-white' : ''}
               `}
                 >
@@ -186,7 +186,7 @@ const DocumentUploadStepper = () => {
                 isFileUploaded
                   ? currentStep === stepLabels.length - 1
                     ? 'bg-green-500'
-                    : 'bg-blue-500'
+                    : 'bg-[#b03052]'
                   : 'bg-gray-300 cursor-not-allowed'
               }`}
             >

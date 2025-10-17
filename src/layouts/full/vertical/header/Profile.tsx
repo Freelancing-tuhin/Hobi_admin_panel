@@ -16,7 +16,7 @@ const Profile = () => {
     <div className="relative ">
       <Dropdown
         label=""
-        className="w-screen sm:w-[360px] pb-4 rounded-sm"
+        className="w-screen sm:w-[360px] pb-4 rounded-sm border"
         dismissOnClick={false}
         renderTrigger={() => (
           <div className="flex items-center gap-1">
@@ -54,7 +54,6 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <SimpleBar>
           {profileData.profileDD.map((items, index) => (
             <div key={index} className="px-6 mb-2">
               <Dropdown.Item
@@ -80,7 +79,6 @@ const Profile = () => {
           >
             Logout
           </div>
-        </SimpleBar>
       </Dropdown>
     </div>
   );

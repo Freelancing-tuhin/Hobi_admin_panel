@@ -59,7 +59,7 @@ const EditUserProfile = () => {
     <div className="flex justify-center items-center">
       <button
         onClick={() => setModalOpen(true)}
-        className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+        className="bg-[#b03052] text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
       >
         Edit Profile
       </button>
@@ -135,7 +135,7 @@ const EditUserProfile = () => {
                   </button>
                   <button
                     onClick={handleSubmit}
-                    className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+                    className="bg-[#b03052] text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
                   >
                     Save
                   </button>

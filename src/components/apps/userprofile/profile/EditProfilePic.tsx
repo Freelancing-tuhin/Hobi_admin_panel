@@ -128,7 +128,7 @@ const EditProfilePic = () => {
                 onClick={handleUpload}
                 disabled={isUploading}
                 className={`py-2 px-4 rounded-md transition ${
-                  isUploading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  isUploading ? 'bg-gray-400' : 'bg-[#b03052] hover:bg-blue-700 text-white'
                 }`}
               >
                 {isUploading ? 'Uploading...' : 'Upload'}

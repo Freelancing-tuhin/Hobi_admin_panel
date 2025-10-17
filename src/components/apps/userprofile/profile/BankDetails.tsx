@@ -74,7 +74,7 @@ const BankDetails = () => {
                 <span
                   className={`w-1/2 text-center py-2 w-32 rounded-2xl ${
                     step === 1
-                      ? 'text-white bg-blue-600 font-semibold'
+                      ? 'text-white bg-[#b03052] font-semibold'
                       : 'text-gray-500 bg-gray-200 '
                   }`}
                 >
@@ -83,7 +83,7 @@ const BankDetails = () => {
                 <span
                   className={`w-1/2 text-center py-2 w-32 rounded-2xl ${
                     step === 2
-                      ? 'text-white bg-blue-600 font-semibold'
+                      ? 'text-white bg-[#b03052] font-semibold'
                       : 'text-gray-500 bg-gray-200'
                   }`}
                 >
@@ -116,7 +116,7 @@ const BankDetails = () => {
                     </div>
                     <button
                       onClick={() => setStep(2)}
-                      className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                      className="w-full bg-[#b03052] text-white py-2 rounded-md hover:bg-blue-700 transition"
                     >
                       Next
                     </button>
@@ -186,7 +186,7 @@ const BankDetails = () => {
                       </button>
                       <button
                         onClick={handleSubmit}
-                        className="w-2/4 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+                        className="w-2/4 bg-[#b03052] text-white py-2 rounded-md hover:bg-blue-700 transition"
                       >
                         Save
                       </button>

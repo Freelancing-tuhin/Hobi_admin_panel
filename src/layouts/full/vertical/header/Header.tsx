@@ -78,7 +78,8 @@ const Header = ({ layoutType }: HeaderPropsType) => {
           >
             <Icon icon="solar:hamburger-menu-line-duotone" height={21} />
           </span>
-          {/* Toggle Icon   */}
+          <div className="flex items-center gap-3">
+              {/* Toggle Icon   */}
           <Navbar.Collapse className="xl:block ">
             <div className="flex gap-3 items-center relative">
               {layoutType == 'horizontal' ? (
@@ -108,6 +109,10 @@ const Header = ({ layoutType }: HeaderPropsType) => {
             </div>
           </Navbar.Collapse>
 
+<div className="text-2xl text-[#b03052] font-semibold">Hobi Organizers Panel</div>
+ 
+          </div>
+       
           {/* mobile-logo */}
           <div className="block xl:hidden">
             <FullLogo />
