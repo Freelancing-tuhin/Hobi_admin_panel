@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import RevenueByProduct from 'src/components/dashboards/Dashboard1/RevenueByProduct';
 import Reviews from 'src/components/dashboards/Dashboard1/Reviews';
-import SalesOverview from 'src/components/dashboards/Dashboard1/SalesOverview';
+// import SalesOverview from 'src/components/dashboards/Dashboard1/SalesOverview';
 import YourPerformance from 'src/components/dashboards/Dashboard1/YourPerformance';
 import ColorBoxes from 'src/components/dashboards/dashboard3/ColorBoxes';
 import BreadcrumbComp from 'src/layouts/full/shared/breadcrumb/BreadcrumbComp';

@@ -1,7 +1,6 @@
 import { Icon } from '@iconify/react';
 import { Badge, Dropdown } from 'flowbite-react';
 import * as profileData from './Data';
-import SimpleBar from 'simplebar-react';
 import { Link } from 'react-router';
 import { AuthContext } from 'src/context/authContext/AuthContext';
 import { useContext } from 'react';

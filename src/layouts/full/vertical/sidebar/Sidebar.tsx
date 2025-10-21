@@ -5,7 +5,6 @@ import NavItems from './NavItems';
 import NavCollapse from './NavCollapse';
 import SimpleBar from 'simplebar-react';
 import { Icon } from '@iconify/react';
-import FullLogo from '../../shared/logo/FullLogo';
 
 const SidebarLayout = () => {
   return (

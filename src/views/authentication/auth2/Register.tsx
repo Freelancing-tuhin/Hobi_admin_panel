@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
 import CardBox from 'src/components/shared/CardBox';
 import { Button, Label, TextInput } from 'flowbite-react';
-import FullLogo from 'src/layouts/full/shared/logo/FullLogo';
+// import FullLogo from 'src/layouts/full/shared/logo/FullLogo';
 import { organizerSignup, getOtp } from 'src/service/auth';
 import { decryptDataFrontend } from 'src/service/deCrypt';
 import { Link, useNavigate } from 'react-router';
-import BoxedSocialButtons from '../authforms/BoxedSocialButtons';
+// import BoxedSocialButtons from '../authforms/BoxedSocialButtons';
 import { AuthContext } from 'src/context/authContext/AuthContext';
 import { OtpInput } from './OtpInput';
 

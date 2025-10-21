@@ -11,9 +11,7 @@ import BookingList from 'src/views/apps/eCommerce/BookingList';
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
-/* ****Pages***** */
-const Dashboard1 = Loadable(lazy(() => import('../views/dashboard/Dashboard1')));
-const Dashboard2 = Loadable(lazy(() => import('../views/dashboard/Dashboard2')));
+
 const Dashboard3 = Loadable(lazy(() => import('../views/dashboard/Dashboard3')));
 
 /* ****Apps***** */

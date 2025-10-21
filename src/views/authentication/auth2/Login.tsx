@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import CardBox from 'src/components/shared/CardBox';
 import BoxedAuthSlider from '../authforms/BoxedAuthSlider';
-import FullLogo from 'src/layouts/full/shared/logo/FullLogo';
+// import FullLogo from 'src/layouts/full/shared/logo/FullLogo';
 import { Button, Label } from 'flowbite-react';
 import { useNavigate } from 'react-router';
 import { AuthContext } from 'src/context/authContext/AuthContext';
