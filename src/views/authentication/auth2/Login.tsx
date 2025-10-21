@@ -67,14 +67,14 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center bg-cover bg-center bg-[url('/src/assets/images/backgrounds/login-bg.jpg')]">
+    <div className="relative min-h-screen flex flex-col justify-center bg-cover bg-center bg-gray-100 ">
       <div className="flex h-full justify-center items-center px-4">
-        <CardBox className="xl:max-w-6xl lg:max-w-3xl md:max-w-xl w-full border-none p-0">
+        <CardBox className="xl:max-w-6xl lg:max-w-3xl md:max-w-xl w-full border-none p-0 shadow-2xl">
           <div className="grid grid-cols-12">
             <div className="xl:col-span-6 col-span-12 px-8 xl:border-e border-ld">
               <div className="md:py-14 py-8 lg:px-6">
                 {/* <FullLogo /> */}
-                <div className="text-[#b03052] font-semibold text-4xl">Hobi App Login</div>
+                <div className="text-[#b03052] logo-font font-semibold text-4xl">Hobi App Login</div>
                 {/* <h3 className="md:text-34 text-2xl md:mb-2 md:mt-8 my-5">Admin Login</h3> */}
                 {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
@@ -122,7 +122,7 @@ const Login = () => {
             </div>
 
 
-            <div className="xl:col-span-6 col-span-12 xl:block hidden">
+            <div className="xl:col-span-6 w-full col-span-12 xl:block hidden">
               <BoxedAuthSlider />
             </div>
           </div>

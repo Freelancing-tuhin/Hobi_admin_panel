@@ -1,5 +1,4 @@
-
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
 @import './layouts/container.css';
 @import './layouts/sidebar.css';
 @import './layouts/horizontal.css';
@@ -219,6 +218,22 @@
 
   .ui-checkbox {
     @apply h-[18px] w-[18px] border border-border dark:border-darkborder bg-white dark:bg-transparent data-[checked]:bg-primary dark:data-[checked]:bg-primary rounded cursor-pointer focus:ring-0 focus:ring-offset-0 outline-none
+  }
+
+  /* Logo / script font used in header */
+  .logo-badge {
+    background-color: #b03052;
+    @apply rounded-full inline-flex items-center px-4 py-2;
+  }
+
+  .logo-font {
+     font-family: "Kaushan Script", cursive;
+    @apply text-white text-3xl leading-none;
+  }
+
+  .logo-sub {
+    @apply text-sm font-semibold ml-3;
+    color: #b03052;
   }
 
 

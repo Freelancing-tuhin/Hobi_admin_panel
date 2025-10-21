@@ -109,7 +109,7 @@ const Header = ({ layoutType }: HeaderPropsType) => {
             </div>
           </Navbar.Collapse>
 
-<div className="text-2xl text-[#b03052] font-semibold">Hobi Organizers Panel</div>
+<div className="text-4xl text-[#b03052] font-semibold logo-font">hobi Organizers Panel</div>
  
           </div>
        

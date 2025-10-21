@@ -96,7 +96,7 @@ const Register = () => {
             <div className="xl:col-span-6 col-span-12 px-8 xl:border-e border-gray-300">
               <div className="py-14 lg:px-6">
                 {/* <FullLogo /> */}
-                <h3 className="text-3xl font-semibold my-5 text-gray-800">Create Your Account</h3>
+                <h3 className="text-4xl font-semibold my-5 logo-font text-[#b03052]">Create Your Account</h3>
                 {step === 1 && (
                   <div className="">
                     Enter your phone number to receive a verification code (OTP). After verifying
