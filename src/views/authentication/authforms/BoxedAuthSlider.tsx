@@ -1,24 +1,8 @@
 
-import { Carousel } from "flowbite-react";
-import AuthSlide from "/src/assets/images/backgrounds/login-side.png";
-import { Button } from "flowbite-react";
 import { useLocation } from "react-router";
 
 
-const SliderData = [
-  {
-    title: "Feature Rich 3D Charts",
-    desc: "Donec justo tortor, malesuada vitae faucibus ac, tristique sit amet massa. Aliquam dignissim nec felis quis imperdiet.",
-  },
-  {
-    title: "Feature Rich 2D Charts",
-    desc: "Donec justo tortor, malesuada vitae faucibus ac, tristique sit amet massa. Aliquam dignissim nec felis quis imperdiet.",
-  },
-  {
-    title: "Feature Rich 1D Charts",
-    desc: "Donec justo tortor, malesuada vitae faucibus ac, tristique sit amet massa. Aliquam dignissim nec felis quis imperdiet.",
-  },
-];
+
 
 const BoxedAuthSlider = () => {
   const location = useLocation();

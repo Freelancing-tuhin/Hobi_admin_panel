@@ -11,6 +11,7 @@ import { createEvent, CreateEventPayload } from 'src/service/createEvent';
 import { useNavigate } from 'react-router';
 import { AuthContext } from 'src/context/authContext/AuthContext';
 import LockScreen from 'src/views/authentication/lockScreen/LockScreen';
+import Spinner from 'src/views/spinner/Spinner';
 
 const BCrumb = [
   {
@@ -46,6 +47,7 @@ const AddProduct = () => {
   const navigate = useNavigate();
   const [banner, setBanner] = useState<string | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setEventData({ ...eventData, [e.target.name]: e.target.value });
@@ -63,19 +65,35 @@ const AddProduct = () => {
       return;
     }
 
+    setIsLoading(true);
     const eventPayload: CreateEventPayload = {
       ...eventData,
       bannerImage: bannerFile, // Ensure actual file is sent
     };
 
     console.log('Submitting event:', eventPayload);
-    await createEvent(eventPayload);
-    navigate('/Event/list');
+    try {
+      await createEvent(eventPayload);
+      navigate('/Event/list');
+    } catch (err) {
+      console.error('Create event failed', err);
+      // Optionally show a toast or alert
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <>
       <LockScreen />
+      {isLoading && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="relative z-10">
+            <Spinner />
+          </div>
+        </div>
+      )}
       <BreadcrumbComp title="Add Event" items={BCrumb} />
       <div className="grid grid-cols-12 gap-[30px]">
         <div className="lg:col-span-8 col-span-12">
