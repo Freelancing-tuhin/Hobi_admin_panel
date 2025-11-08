@@ -8,14 +8,14 @@ const BCrumb = [
     title: 'Home',
   },
   {
-    title: 'Invoice List',
+    title: 'Contact Mail',
   },
 ];
 
 const InvoiceListing = () => {
   return (
     <InvoiceProvider>
-      <BreadcrumbComp title="Invoice List" items={BCrumb} />
+      <BreadcrumbComp title="Contact Mail" items={BCrumb} />
     </InvoiceProvider>
   );
 };
