@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import CardBox from 'src/components/shared/CardBox';
 import BoxedAuthSlider from '../authforms/BoxedAuthSlider';
 // import FullLogo from 'src/layouts/full/shared/logo/FullLogo';
-import { Button, Label } from 'flowbite-react';
+import { Button, Label, Toast } from 'flowbite-react';
 import { useNavigate } from 'react-router';
 import { AuthContext } from 'src/context/authContext/AuthContext';
 import { OtpInput } from './OtpInput';
@@ -19,14 +19,38 @@ const Login = () => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [apiOtp, setApiOtp] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [showInvalidToast, setShowInvalidToast] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
 
   const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
+    // Clean phone: keep digits only
+    const cleanPhone = (raw: string) => {
+      const digits = raw.replace(/\D/g, '');
+      // If starts with 0 and total 11 digits, strip leading zero
+      if (digits.length === 11 && digits.startsWith('0')) {
+        return digits.slice(1);
+      }
+      // If exactly 10 digits, return as is
+      if (digits.length === 10) return digits;
+      // otherwise invalid
+      return null;
+    };
+
+    const cleaned = cleanPhone(phone);
+    if (!cleaned) {
+      // show toast
+      setShowInvalidToast(true);
+      setLoading(false);
+      window.setTimeout(() => setShowInvalidToast(false), 3500);
+      return;
+    }
+
     try {
-      const response = await getOtp(phone);
+      const response = await getOtp(cleaned);
       console.log('OTP sent successfully:', response?.result);
       setShowOtpInput(true);
       setApiOtp(decryptDataFrontend(response?.result));
@@ -34,6 +58,31 @@ const Login = () => {
       setError(err.message || 'Failed to send OTP');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const resendOtp = async () => {
+    // allow resend only when phone looks valid
+    const digits = phone.replace(/\D/g, '');
+    let cleaned = null as string | null;
+    if (digits.length === 11 && digits.startsWith('0')) cleaned = digits.slice(1);
+    else if (digits.length === 10) cleaned = digits;
+    if (!cleaned) {
+      setShowInvalidToast(true);
+      window.setTimeout(() => setShowInvalidToast(false), 3500);
+      return;
+    }
+
+    setResendLoading(true);
+    setError(null);
+    try {
+      const response = await getOtp(cleaned);
+      console.log('OTP resent successfully:', response?.result);
+      setApiOtp(decryptDataFrontend(response?.result));
+    } catch (err: any) {
+      setError(err.message || 'Failed to resend OTP');
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -75,13 +124,21 @@ const Login = () => {
               <div className="md:py-14 py-8 lg:px-6">
                 {/* <FullLogo /> */}
                 <div className="text-[#b03052] logo-font font-semibold text-4xl">Hobi App Login</div>
+                {showInvalidToast && (
+                  <div className="fixed top-5 right-5 z-50">
+                    <Toast>
+                      <div className="ml-3 text-sm font-normal">Please write a valid phone number</div>
+                      <Toast.Toggle onDismiss={() => setShowInvalidToast(false)} />
+                    </Toast>
+                  </div>
+                )}
                 {/* <h3 className="md:text-34 text-2xl md:mb-2 md:mt-8 my-5">Admin Login</h3> */}
                 {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
                 {!showOtpInput ? (
                   <form onSubmit={handlePhoneSubmit}>
                     <p className="text-ld mb-8 opacity-80 text-sm font-medium mt-4">
-                      wellcome to Hobi Organizers Portal.
+                      Wellcome to Hobi Organizers Portal.
                       Please enter your phone number to receive an OTP for verification.
                     </p>
                     <div className="mb-4">
@@ -106,7 +163,12 @@ const Login = () => {
                     </Button>
                   </form>
                 ) : (
-                  <OtpInput otp={otp} handleOtpChange={handleOtpChange} />
+                  <OtpInput
+                    otp={otp}
+                    handleOtpChange={handleOtpChange}
+                    onResend={resendOtp}
+                    resendLoading={resendLoading}
+                  />
                 )}
                             <div className="text-ld mb-8 opacity-80 text-sm font-medium mt-4">
               Dont have an account?{' '}

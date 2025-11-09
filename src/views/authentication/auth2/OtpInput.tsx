@@ -1,6 +1,6 @@
 import { Label } from 'flowbite-react'; // Keeping Label; let me know if you want that native too
 
-export const OtpInput = ({ otp, handleOtpChange }: any) => {
+export const OtpInput = ({ otp, handleOtpChange, onResend, resendLoading }: any) => {
   return (
     <div>
       <p className="text-ld opacity-80 text-sm font-medium mt-4">
@@ -29,7 +29,14 @@ export const OtpInput = ({ otp, handleOtpChange }: any) => {
 
       <div className="flex gap-2 text-sm font-medium mt-6 items-center justify-left">
         <p>Didn't get the code?</p>
-        <div className="text-primary text-sm font-medium cursor-pointer">Resend</div>
+        <button
+          type="button"
+          onClick={onResend}
+          disabled={resendLoading}
+          className={`text-primary text-sm font-medium ${resendLoading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
+        >
+          {resendLoading ? 'Resending...' : 'Resend'}
+        </button>
       </div>
     </div>
   );
