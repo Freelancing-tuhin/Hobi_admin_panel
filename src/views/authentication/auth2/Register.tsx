@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import CardBox from 'src/components/shared/CardBox';
-import { Button, Label, TextInput } from 'flowbite-react';
+import { Button, Label, TextInput, Toast } from 'flowbite-react';
 // import FullLogo from 'src/layouts/full/shared/logo/FullLogo';
 import { organizerSignup, getOtp } from 'src/service/auth';
 import { decryptDataFrontend } from 'src/service/deCrypt';
@@ -30,6 +30,8 @@ const Register = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [step, setStep] = useState(1); // 1: enter phone, 2: verify otp, 3: fill details
+  const [showInvalidToast, setShowInvalidToast] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
 
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,19 +42,60 @@ const Register = () => {
       setError('Please enter your phone number.');
       return;
     }
+
+    // Clean phone: keep digits only
+    const cleanPhone = (raw: string) => {
+      const digits = raw.replace(/\D/g, '');
+      if (digits.length === 11 && digits.startsWith('0')) return digits.slice(1);
+      if (digits.length === 10) return digits;
+      return null;
+    };
+
+    const cleaned = cleanPhone(phone);
+    if (!cleaned) {
+      setShowInvalidToast(true);
+      window.setTimeout(() => setShowInvalidToast(false), 3500);
+      return;
+    }
+
     setLoading(true);
     setError('');
     try {
-      const response = await getOtp(phone);
+      const response = await getOtp(cleaned);
       setApiOtp(decryptDataFrontend(response?.result));
       setSuccess('OTP sent to your phone.');
       setStep(2);
-      // store phone in formData for signup
-      setFormData((prev: any) => ({ ...prev, phone }));
+      // store cleaned phone in formData for signup
+      setFormData((prev: any) => ({ ...prev, phone: cleaned }));
     } catch (err: any) {
       setError(err?.message || 'Failed to send OTP');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const resendOtp = async () => {
+    const digits = phone.replace(/\D/g, '');
+    let cleaned = null as string | null;
+    if (digits.length === 11 && digits.startsWith('0')) cleaned = digits.slice(1);
+    else if (digits.length === 10) cleaned = digits;
+    if (!cleaned) {
+      setShowInvalidToast(true);
+      window.setTimeout(() => setShowInvalidToast(false), 3500);
+      return;
+    }
+
+    setResendLoading(true);
+    setError('');
+    try {
+      const response = await getOtp(cleaned);
+      setApiOtp(decryptDataFrontend(response?.result));
+      setSuccess('OTP resent to your phone.');
+    } catch (err: any) {
+      setError(err?.message || 'Failed to resend OTP');
+    } finally {
+      setResendLoading(false);
+    }
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -97,6 +140,14 @@ const Register = () => {
               <div className="py-14 lg:px-6">
                 {/* <FullLogo /> */}
                 <h3 className="text-4xl font-semibold my-5 logo-font text-[#b03052]">Create Your Account</h3>
+                {showInvalidToast && (
+                  <div className="fixed top-5 right-5 z-50">
+                    <Toast>
+                      <div className="ml-3 text-sm font-normal">Please write a valid phone number</div>
+                      <Toast.Toggle onDismiss={() => setShowInvalidToast(false)} />
+                    </Toast>
+                  </div>
+                )}
                 {step === 1 && (
                   <div className="">
                     Enter your phone number to receive a verification code (OTP). After verifying
@@ -135,7 +186,7 @@ const Register = () => {
                   {step === 2 && (
                     <>
                       <p className="text-sm mb-4">Enter the 4-digit OTP sent to your phone.</p>
-                      <OtpInput otp={otp} handleOtpChange={handleOtpChange} />
+                        <OtpInput otp={otp} handleOtpChange={handleOtpChange} onResend={resendOtp} resendLoading={resendLoading} />
                     </>
                   )}
 

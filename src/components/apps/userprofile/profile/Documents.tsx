@@ -93,7 +93,7 @@ const DocumentUploadStepper = () => {
   };
 
   return (
-    <CardBox className="mx-auto  shadow-md rounded-md w-full max-w-lg h-[35rem]">
+    <CardBox className="mx-auto  shadow-md rounded-md w-full max-w-lg min-h-[35rem]">
       <h2 className="text-lg font-semibold text-gray-700 mt-4">Upload Documents</h2>
       <p className="card-subtitle mb-4">
         All your Documents will be secured and will not be shared with anyone.
@@ -142,23 +142,52 @@ const DocumentUploadStepper = () => {
 
             <input id="file-upload" type="file" onChange={handleFileChange} className="hidden" />
 
-            {/* Image Preview */}
+            {/* File Preview: image or PDF */}
             {files[backendField] ? (
               <div className="relative mt-1">
-                <img
-                  src={URL.createObjectURL(files[backendField])}
-                  alt="Preview"
-                  className="w-full max-h-32 object-cover rounded-md"
-                />
-                <p className="text-gray-600 mt-2">{files[backendField]?.name}</p>
+                {files[backendField].type && files[backendField].type.startsWith('image/') ? (
+                  <>
+                    <img
+                      src={URL.createObjectURL(files[backendField])}
+                      alt="Preview"
+                      className="w-full max-h-32 object-cover rounded-md"
+                    />
+                    <p className="text-gray-600 mt-2">{files[backendField]?.name}</p>
+                  </>
+                ) : files[backendField].type === 'application/pdf' ? (
+                  <div>
+                    <iframe
+                      title="pdf-preview"
+                      src={URL.createObjectURL(files[backendField])}
+                      className="w-full h-48 rounded-md border"
+                    />
+                    <p className="text-gray-600 mt-2">{files[backendField]?.name}</p>
+                  </div>
+                ) : (
+                  // fallback: show filename and download link
+                  <div className="mt-2">
+                    <p className="text-gray-600">{files[backendField]?.name}</p>
+                    <a
+                      href={URL.createObjectURL(files[backendField])}
+                      download={files[backendField]?.name}
+                      className="text-sm text-sky"
+                    >
+                      Download
+                    </a>
+                  </div>
+                )}
               </div>
             ) : existingFileUrl ? (
               <div className="relative mt-1">
-                <img
-                  src={existingFileUrl}
-                  alt="Uploaded Document"
-                  className="w-full max-h-32 object-cover rounded-md"
-                />
+                {/\.pdf(\?|#|$)/i.test(existingFileUrl) ? (
+                  <iframe title="pdf-preview" src={existingFileUrl} className="w-full h-48 rounded-md border" />
+                ) : (
+                  <img
+                    src={existingFileUrl}
+                    alt="Uploaded Document"
+                    className="w-full max-h-32 object-cover rounded-md"
+                  />
+                )}
               </div>
             ) : null}
             <div className=" flex justify-center items-center gap-1 text-sm mt-4 font-semibold text-gray-700 mb-2 dark:card-subtitle">

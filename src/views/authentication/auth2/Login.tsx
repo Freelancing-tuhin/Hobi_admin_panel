@@ -87,10 +87,21 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
+      const digits = phone.replace(/\D/g, '');
+    let cleaned = null as string | null;
+    if (digits.length === 11 && digits.startsWith('0')) cleaned = digits.slice(1);
+    else if (digits.length === 10) cleaned = digits;
+    if (!cleaned) {
+      setShowInvalidToast(true);
+      window.setTimeout(() => setShowInvalidToast(false), 3500);
+      return;
+    }
+
     try {
-      const response = await loginOrganizer(phone);
+      const response = await loginOrganizer(cleaned);
       console.log('Login successful:', response);
       login(response?.result); // Mock login
+      localStorage.setItem('token', response?.token);
 
       navigate('/');
     } catch (error) {
