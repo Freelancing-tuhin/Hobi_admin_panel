@@ -3,16 +3,14 @@ import CardBox from 'src/components/shared/CardBox';
 
 const ProductData = ({ eventData, setEventData }: any) => {
   const catOptions = [
-    'Music',
-    'Concerts',
-    'Festivals',
-    'Comedy',
-    'Theater',
-    'Parties',
-    'Workshops',
-    'Sports',
-    'Food & Drinks',
-    'Tech',
+    'Creative and artistic',
+    'Performing arts',
+    'Sports and physical activity',
+    'Games and puzzles',
+    'Outdoor and nature based activity',
+    'Culinary activity',
+    'Collecting hobbies',
+    'Intellectual and learning',
   ];
 
   const handleCategoryChange = (e: any) => {
@@ -21,7 +19,7 @@ const ProductData = ({ eventData, setEventData }: any) => {
 
   return (
     <CardBox>
-      <h5 className="card-title mb-4">Product Details</h5>
+      <h5 className="card-title mb-4">Event Details</h5>
       <div>
         <div className="mb-2 block">
           <Label htmlFor="category" value="Category" />

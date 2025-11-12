@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import './layouts/container.css';
 @import './layouts/sidebar.css';
 @import './layouts/horizontal.css';
@@ -227,7 +227,7 @@
   }
 
   .logo-font {
-     font-family: "Kaushan Script", cursive;
+    font-family: 'Bebas Neue', cursive, sans-serif;
     @apply text-white text-3xl leading-none;
   }
 

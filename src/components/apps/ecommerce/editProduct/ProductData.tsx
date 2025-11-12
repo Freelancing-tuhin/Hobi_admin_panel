@@ -78,7 +78,7 @@ const ProductData = () => {
 
   return (
     <CardBox>
-      <h5 className="card-title mb-4">Product Details</h5>
+      <h5 className="card-title mb-4">Event Details</h5>
       <div className="">
         <div className="mb-2 block">
           <Label htmlFor="cat" value="Categories" />

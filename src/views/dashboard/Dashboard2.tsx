@@ -15,9 +15,7 @@ const Dashboard2 = () => {
           {/* <AnnualProfit /> */}
           <WeeklyStats />
         </div>
-        <div className="lg:col-span-4 col-span-12">
-          <FigmaCard />
-        </div>
+       
       </div>
     </>
   );

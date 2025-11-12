@@ -134,7 +134,7 @@ const Login = () => {
             <div className="xl:col-span-6 col-span-12 px-8 xl:border-e border-ld">
               <div className="md:py-14 py-8 lg:px-6">
                 {/* <FullLogo /> */}
-                <div className="text-[#b03052] logo-font font-semibold text-4xl">Hobi App Login</div>
+                <div className="text-[#b03052] logo-font font-semibold text-4xl">Organizer Login Panel</div>
                 {showInvalidToast && (
                   <div className="fixed top-5 right-5 z-50">
                     <Toast>
@@ -149,7 +149,7 @@ const Login = () => {
                 {!showOtpInput ? (
                   <form onSubmit={handlePhoneSubmit}>
                     <p className="text-ld mb-8 opacity-80 text-sm font-medium mt-4">
-                      Wellcome to Hobi Organizers Portal.
+                      Welcome to Hobi Organizers Portal.
                       Please enter your phone number to receive an OTP for verification.
                     </p>
                     <div className="mb-4">
