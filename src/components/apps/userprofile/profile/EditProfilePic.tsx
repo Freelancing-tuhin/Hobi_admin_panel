@@ -64,18 +64,19 @@ const EditProfilePic = () => {
   };
 
   return (
-    <div className="relative w-24 h-24 mx-auto">
+    <div className="relative w-full h-full">
       {/* Profile Picture */}
       <img
         src={user?.profile_pic || '/default-avatar.png'}
         alt="Profile"
-        className="w-full h-full object-cover rounded-full border-4 border-white dark:border-darkborder"
+        className="w-full h-full object-cover rounded-full border-4 border-white dark:border-darkborder shadow-sm"
       />
 
       {/* Edit Icon */}
       <button
-        className="absolute bottom-0 right-0 bg-gray-800 p-1 rounded-full text-white"
+        className="absolute bottom-1 right-1 bg-[#b03052] p-2 rounded-full text-white shadow-md hover:bg-[#8a2641] transition-colors z-20"
         onClick={() => setModalOpen(true)}
+        title="Edit profile picture"
       >
         <FaPencilAlt className="text-xs" />
       </button>
@@ -127,9 +128,8 @@ const EditProfilePic = () => {
               <button
                 onClick={handleUpload}
                 disabled={isUploading}
-                className={`py-2 px-4 rounded-md transition ${
-                  isUploading ? 'bg-gray-400' : 'bg-[#b03052] hover:bg-blue-700 text-white'
-                }`}
+                className={`py-2 px-4 rounded-md transition ${isUploading ? 'bg-gray-400' : 'bg-[#b03052] hover:bg-blue-700 text-white'
+                  }`}
               >
                 {isUploading ? 'Uploading...' : 'Upload'}
               </button>
