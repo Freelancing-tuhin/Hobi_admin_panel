@@ -20,9 +20,9 @@ const TwoSteps = () => {
                   We sent a verification code to your mobile. Enter the code
                   from the mobile in the field below.
                 </p>
-                <h6 className="text-sm font-bold my-4">******1234</h6>
+                {/* <h6 className="text-sm font-bold my-4">******1234</h6> */}
                 <AuthTwoSteps />
-                <div className="flex gap-2 text-base text-dark dark:text-white font-medium mt-6 items-center justify-left">
+                <div className="flex gap-2 mt-4 text-base text-dark dark:text-white font-medium mt-6 items-center justify-left">
                   <p>Didn't get the code?</p>
                   <Link to={"/"} className="text-primary text-sm font-medium">
                     Resend

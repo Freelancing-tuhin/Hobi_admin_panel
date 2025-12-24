@@ -3,7 +3,6 @@ import { Navbar } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import Profile from './Profile';
 import FullLogo from '../../shared/logo/FullLogo';
-import MobileHeaderItems from './MobileHeaderItems';
 import { Drawer } from 'flowbite-react';
 import MobileSidebar from '../sidebar/MobileSidebar';
 import HorizontalMenu from '../../horizontal/header/HorizontalMenu';
@@ -42,15 +41,7 @@ const Header = ({ layoutType }: HeaderPropsType) => {
     setIsMobileSidebar,
   } = useContext(CustomizerContext);
 
-  const [mobileMenu, setMobileMenu] = useState('');
 
-  const handleMobileMenu = () => {
-    if (mobileMenu === 'active') {
-      setMobileMenu('');
-    } else {
-      setMobileMenu('active');
-    }
-  };
 
   const toggleMode = () => {
     setActiveMode((prevMode: string) => (prevMode === 'light' ? 'dark' : 'light'));
@@ -61,15 +52,13 @@ const Header = ({ layoutType }: HeaderPropsType) => {
   return (
     <>
       <header
-        className={`top-0 z-[5]  ${
-          isSticky ? 'bg-white dark:bg-darkgray sticky' : 'bg-transparent'
-        }`}
+        className={`top-0 z-[5]  ${isSticky ? 'bg-white dark:bg-darkgray sticky' : 'bg-transparent'
+          }`}
       >
         <Navbar
           fluid
-          className={`rounded-none bg-transparent dark:bg-transparent py-4 sm:px-[15px] px-2 ${
-            layoutType == 'horizontal' ? 'container mx-auto !px-6' : ''
-          }  ${isLayout == 'full' ? '!max-w-full ' : ''}`}
+          className={`rounded-none bg-transparent dark:bg-transparent py-4 sm:px-[15px] px-2 ${layoutType == 'horizontal' ? 'container mx-auto !px-6' : ''
+            }  ${isLayout == 'full' ? '!max-w-full ' : ''}`}
         >
           {/* Mobile Toggle Icon */}
           <span
@@ -79,43 +68,43 @@ const Header = ({ layoutType }: HeaderPropsType) => {
             <Icon icon="solar:hamburger-menu-line-duotone" height={21} />
           </span>
           <div className="flex items-center gap-3">
-              {/* Toggle Icon   */}
-          <Navbar.Collapse className="xl:block ">
-            <div className="flex gap-3 items-center relative">
-              {layoutType == 'horizontal' ? (
-                <div className="me-3">
-                  <FullLogo />
-                </div>
-              ) : null}
+            {/* Toggle Icon   */}
+            <Navbar.Collapse className="xl:block ">
+              <div className="flex gap-3 items-center relative">
+                {layoutType == 'horizontal' ? (
+                  <div className="me-3">
+                    <FullLogo />
+                  </div>
+                ) : null}
 
-              {/* Toggle Menu    */}
-              {layoutType != 'horizontal' ? (
-                <span
-                  onClick={() => {
-                    if (isCollapse === 'full-sidebar') {
-                      setIsCollapse('mini-sidebar');
-                    } else {
-                      setIsCollapse('full-sidebar');
-                    }
-                  }}
-                  className="h-10 w-10 hover:text-primary hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer text-darklink  dark:text-white"
-                >
-                  <Icon icon="solar:hamburger-menu-line-duotone" height={21} />
-                </span>
-              ) : null}
+                {/* Toggle Menu    */}
+                {layoutType != 'horizontal' ? (
+                  <span
+                    onClick={() => {
+                      if (isCollapse === 'full-sidebar') {
+                        setIsCollapse('mini-sidebar');
+                      } else {
+                        setIsCollapse('full-sidebar');
+                      }
+                    }}
+                    className="h-10 w-10 hover:text-primary hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer text-darklink  dark:text-white"
+                  >
+                    <Icon icon="solar:hamburger-menu-line-duotone" height={21} />
+                  </span>
+                ) : null}
 
-              {/* <Search /> */}
-              {/* <AppLinks /> */}
-            </div>
-          </Navbar.Collapse>
+                {/* <Search /> */}
+                {/* <AppLinks /> */}
+              </div>
+            </Navbar.Collapse>
 
-<div className="text-4xl text-[#b03052] font-semibold logo-font">hobi Organizers Panel</div>
- 
+            <div className="text-lg sm:text-2xl xl:text-4xl text-[#b03052] font-semibold logo-font">hobi Organizers Panel</div>
+
           </div>
-       
-          {/* mobile-logo */}
-          <div className="block xl:hidden">
-            <FullLogo />
+
+          {/* Mobile Profile */}
+          <div className="xl:hidden">
+            <Profile />
           </div>
 
           <Navbar.Collapse className="xl:block hidden">
@@ -152,17 +141,7 @@ const Header = ({ layoutType }: HeaderPropsType) => {
               <Profile />
             </div>
           </Navbar.Collapse>
-          {/* Mobile Toggle Icon */}
-          <span
-            className="h-10 w-10 flex xl:hidden hover:text-primary hover:bg-lightprimary rounded-full justify-center items-center cursor-pointer"
-            onClick={handleMobileMenu}
-          >
-            <Icon icon="tabler:dots" height={21} />
-          </span>
         </Navbar>
-        <div className={`w-full  xl:hidden block mobile-header-menu ${mobileMenu}`}>
-          <MobileHeaderItems />
-        </div>
 
         {/* Horizontal Menu  */}
         {layoutType == 'horizontal' ? (
@@ -175,7 +154,8 @@ const Header = ({ layoutType }: HeaderPropsType) => {
       </header>
 
       {/* Mobile Sidebar */}
-      <Drawer open={isMobileSidebar} onClose={handleClose} className="w-130">
+      <Drawer open={isMobileSidebar} onClose={handleClose} className="w-full sm:w-130 mobile-sidebar-drawer">
+        <Drawer.Header titleIcon={() => null} title="" onClick={handleClose} />
         <Drawer.Items>
           <MobileSidebar />
         </Drawer.Items>

@@ -1,4 +1,3 @@
-import FigmaCard from 'src/components/dashboards/Dashboard2/FigmaCard';
 import NewCustomers from 'src/components/dashboards/Dashboard2/NewCustomers';
 import TotalIncome from 'src/components/dashboards/Dashboard2/TotalIncome';
 import WeeklyStats from 'src/components/dashboards/Dashboard2/WeeklyStats';

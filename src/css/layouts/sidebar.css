@@ -1,3 +1,20 @@
+/* Mobile Sidebar Drawer - Full screen on mobile */
+.mobile-sidebar-drawer {
+    z-index: 100 !important;
+}
+
+@media (max-width: 640px) {
+    .mobile-sidebar-drawer {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .mobile-sidebar-drawer .menu-sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
 .menu-sidebar {
     flex-shrink: 0;
     z-index: 10;

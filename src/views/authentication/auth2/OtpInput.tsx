@@ -7,9 +7,9 @@ export const OtpInput = ({ otp, handleOtpChange, onResend, resendLoading }: any)
         We sent a verification code to your mobile. Enter the code from the mobile in the field
         below.
       </p>
-      <h6 className="text-sm font-bold my-4">******1234</h6>
+      {/* <h6 className="text-sm font-bold my-4">******1234</h6> */}
 
-      <Label htmlFor="otp" className="mb-2 block">
+      <Label htmlFor="otp" className="mb-2 block mt-4">
         Enter OTP
       </Label>
 

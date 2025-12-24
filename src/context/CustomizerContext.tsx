@@ -1,5 +1,5 @@
 
-import  { createContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useState, ReactNode, useEffect } from 'react';
 import config from './config'
 import React from "react";
 
@@ -23,6 +23,8 @@ interface CustomizerContextState {
   setIsBorderRadius: (radius: number) => void;
   isCollapse: string;
   setIsCollapse: (collapse: string) => void;
+  isMobileSidebar: boolean;
+  setIsMobileSidebar: (sidebar: boolean) => void;
 
 }
 
@@ -45,6 +47,7 @@ export const CustomizerContextProvider: React.FC<CustomizerContextProps> = ({ ch
   const [isBorderRadius, setIsBorderRadius] = useState<number>(config.isBorderRadius);
   const [isCollapse, setIsCollapse] = useState<string>(config.isCollapse);
   const [isLanguage, setIsLanguage] = useState<string>(config.isLanguage);
+  const [isMobileSidebar, setIsMobileSidebar] = useState<boolean>(false);
 
 
   // Set attributes immediately
@@ -81,6 +84,8 @@ export const CustomizerContextProvider: React.FC<CustomizerContextProps> = ({ ch
         setIsCollapse,
         isLanguage,
         setIsLanguage,
+        isMobileSidebar,
+        setIsMobileSidebar,
 
       }}
     >

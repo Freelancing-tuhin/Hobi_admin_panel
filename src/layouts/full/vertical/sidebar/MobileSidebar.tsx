@@ -13,9 +13,9 @@ const MobileSidebar = () => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex h-full">
         <Sidebar
-          className="fixed menu-sidebar pt-6 bg-white dark:bg-darkgray z-[10]"
+          className="menu-sidebar pt-6 bg-white dark:bg-darkgray z-[10] !relative !w-full"
           aria-label="Sidebar with multi-level dropdown example"
         >
           <div className="mb-7 px-4 brand-logo">
