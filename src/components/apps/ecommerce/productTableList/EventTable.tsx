@@ -62,7 +62,7 @@ const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
                       <h6 className="text-base overflow-hidden whitespace-nowrap text-ellipsis max-w-[20ch]">
                         {item?.title}
                       </h6>
-                      <p className="text-sm text-darklink dark:text-bodytext">{item?.category}</p>
+                      <p className="text-sm text-darklink dark:text-bodytext">{item?.category?.service_name}</p>
                     </div>
                   </div>
                 </Table.Cell>
@@ -76,11 +76,10 @@ const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
                     {[...Array(5)].map((_, index) => (
                       <svg
                         key={index}
-                        className={`w-4 h-4 ms-1 ${
-                          index < item?.ratings
+                        className={`w-4 h-4 ms-1 ${index < item?.ratings
                             ? 'text-yellow-300'
                             : 'text-gray-300 dark:text-gray-500'
-                        }`}
+                          }`}
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -107,7 +106,7 @@ const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
                       color="blue"
                       size="xs"
                       className="bg-[#b03052]"
-                      // onClick={() => openEditModal(service)}
+                    // onClick={() => openEditModal(service)}
                     >
                       <Icon icon="solar:presentation-graph-bold" height="18" />
                     </Button>

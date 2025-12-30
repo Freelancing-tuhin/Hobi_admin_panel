@@ -1,19 +1,26 @@
+import { useEffect, useState } from 'react';
 import { Label, Select } from 'flowbite-react';
 import CardBox from 'src/components/shared/CardBox';
+import axios from 'axios';
+import { API_BASE_URL } from 'src/config';
 
 const ProductData = ({ eventData, setEventData }: any) => {
-  const catOptions = [
-    'Creative and artistic',
-    'Performing arts',
-    'Sports and physical activity',
-    'Games and puzzles',
-    'Outdoor and nature based activity',
-    'Culinary activity',
-    'Collecting hobbies',
-    'Intellectual and learning',
-  ];
+  const [categories, setCategories] = useState<{ _id: string; service_name: string }[]>([]);
 
-  const handleCategoryChange = (e: any) => {
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/v1/services/get-all`);
+        setCategories(response.data.result || []);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setEventData((prevData: any) => ({ ...prevData, category: e.target.value }));
   };
 
@@ -35,9 +42,9 @@ const ProductData = ({ eventData, setEventData }: any) => {
           <option value="" disabled>
             Select a category
           </option>
-          {catOptions.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.service_name}
             </option>
           ))}
         </Select>
@@ -50,3 +57,4 @@ const ProductData = ({ eventData, setEventData }: any) => {
 };
 
 export default ProductData;
+
