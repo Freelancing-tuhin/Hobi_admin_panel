@@ -50,7 +50,7 @@ const AddProduct = () => {
       longitude: 0,
     },
     description: '',
-    isTicketed: false,
+    isTicketed: true,
     tickets: [],
     organizerId: user?._id,
   });
@@ -235,73 +235,6 @@ const AddProduct = () => {
       )}
       <BreadcrumbComp title="Add Event" items={BCrumb} />
 
-      {/* Stepper */}
-      <div className="mb-6">
-        <div className="relative">
-          {/* Progress Line */}
-          <div className="absolute top-4 md:top-5 left-8 right-8 md:left-10 md:right-10 h-[2px] bg-gray-200 dark:bg-gray-700">
-            <div
-              className="h-full bg-green-500 transition-all duration-500 ease-out"
-              style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
-            />
-          </div>
-
-          {/* Steps */}
-          <div className="relative flex flex-row justify-between items-center">
-            {STEPS.map((step) => {
-              const isActive = step.id === currentStep;
-              const isCompleted = step.id < currentStep;
-              const isClickable = step.id <= currentStep;
-
-              return (
-                <div
-                  key={step.id}
-                  className={`flex flex-col items-center gap-1.5 cursor-pointer group transition-all duration-200 ${isClickable ? 'opacity-100' : 'opacity-50'
-                    }`}
-                  onClick={() => goToStep(step.id)}
-                >
-                  {/* Step Circle */}
-                  <div
-                    className={`relative z-10 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-200 ${isActive
-                      ? 'bg-primary text-white'
-                      : isCompleted
-                        ? 'bg-green-500 text-white'
-                        : 'bg-white dark:bg-gray-800 text-gray-400 border border-gray-300'
-                      }`}
-                  >
-                    {isCompleted ? (
-                      <Icon icon="tabler:check" className="w-4 h-4 md:w-5 md:h-5" />
-                    ) : (
-                      <span className="text-xs font-semibold">{step.id}</span>
-                    )}
-                  </div>
-
-                  {/* Step Info - Hidden on mobile, shown on desktop */}
-                  <div className="text-center hidden md:block">
-                    <p
-                      className={`font-medium text-xs transition-colors duration-200 ${isCompleted
-                        ? 'text-green-600'
-                        : isActive
-                          ? 'text-primary'
-                          : 'text-gray-500 dark:text-gray-400'
-                        }`}
-                    >
-                      {step.title}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Mobile: Current Step Title */}
-          <div className="md:hidden text-center mt-3">
-            <p className="text-sm font-medium text-primary">
-              {STEPS.find(s => s.id === currentStep)?.title}
-            </p>
-          </div>
-        </div>
-      </div>
 
       {/* Error Message */}
       {stepErrors[currentStep] && (
@@ -315,45 +248,89 @@ const AddProduct = () => {
       <div className="mb-24 animate-fadeIn">{renderStepContent()}</div>
 
       {/* Navigation Buttons - Fixed Footer */}
-      <div className="fixed bottom-0 left-0 xl:left-[270px] right-0 
-      bg-transparent dark:bg-transparent backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50 px-6 py-4 z-40">
-        <div className="flex items-center justify-between">
+      <div className="fixed bottom-0 left-0 xl:left-[270px] right-0 bg-white/90 dark:bg-black/30 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 
+      px-4 md:px-6 py-5 z-40">
+        <div className="flex items-center justify-between gap-4">
+          {/* Previous Button */}
           <Button
             color="light"
+            size="sm"
             className="flex items-center gap-2"
             onClick={handlePrevious}
             disabled={currentStep === 1}
           >
             <Icon icon="tabler:arrow-left" className="w-4 h-4" />
-            Previous
+            <span className="hidden sm:inline">Previous</span>
           </Button>
 
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Step {currentStep} of {STEPS.length}
-            </span>
+          {/* Mini Stepper */}
+          <div className="flex items-center">
+            {STEPS.map((step, index) => {
+              const isActive = step.id === currentStep;
+              const isCompleted = step.id < currentStep;
+              const isClickable = step.id <= currentStep;
+
+              return (
+                <div key={step.id} className="flex items-center">
+                  {/* Step Circle */}
+                  <button
+                    type="button"
+                    onClick={() => goToStep(step.id)}
+                    disabled={!isClickable}
+                    className={`relative w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center transition-all duration-300 font-semibold text-sm ${isActive
+                      ? 'bg-primary text-white '
+                      : isCompleted
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border-2 border-gray-200 dark:border-gray-600'
+                      } ${isClickable ? 'cursor-pointer hover:scale-110' : 'cursor-not-allowed opacity-40'}`}
+                  >
+                    {isCompleted ? (
+                      <Icon icon="tabler:check" className="w-5 h-5" />
+                    ) : (
+                      <span>{step.id}</span>
+                    )}
+                  </button>
+
+                  {/* Connector Line */}
+                  {index < STEPS.length - 1 && (
+                    <div className={`w-1 md:w-16 lg:w-20 h-[3px] rounded-full mx-1 transition-all duration-500 ${step.id < currentStep
+                      ? 'bg-gradient-to-r from-green-500 to-green-400'
+                      : 'bg-gray-200 dark:bg-gray-700'
+                      }`} />
+                  )}
+                </div>
+              );
+            })}
           </div>
 
+          {/* Next/Submit Button */}
           {currentStep < STEPS.length ? (
             <Button
               color="primary"
+              size="sm"
               className="flex items-center gap-2"
               onClick={handleNext}
             >
-              Next Step
+              <span className="hidden sm:inline">Next</span>
               <Icon icon="tabler:arrow-right" className="w-4 h-4" />
             </Button>
           ) : (
             <Button
               color="primary"
+              size="sm"
               className="flex items-center gap-2"
               onClick={handleSubmit}
             >
               <Icon icon="tabler:check" className="w-4 h-4" />
-              Create Event
+              <span className="hidden sm:inline">Publish Event</span>
             </Button>
           )}
         </div>
+
+        {/* Current Step Title - Mobile */}
+        <p className="text-center text-xs text-gray-500 mt-2 md:hidden">
+          {STEPS.find(s => s.id === currentStep)?.title}
+        </p>
       </div>
 
       {/* Custom Styles */}

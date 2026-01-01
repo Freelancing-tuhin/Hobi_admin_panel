@@ -347,12 +347,6 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
             </div>
           </div>
 
-          {eventData.startDate && eventData.startTime && eventData.endTime && (
-            <div className="mt-4 p-3 bg-primary/5 rounded-xl flex items-center gap-2">
-              <Icon icon="tabler:circle-check" className="w-4 h-4 text-primary" />
-              <span className="text-xs text-primary font-medium">Schedule complete</span>
-            </div>
-          )}
         </CardBox>
       </div>
 
