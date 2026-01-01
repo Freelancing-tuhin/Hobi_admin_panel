@@ -241,7 +241,7 @@ const AddProduct = () => {
           {/* Progress Line */}
           <div className="absolute top-4 md:top-5 left-8 right-8 md:left-10 md:right-10 h-[2px] bg-gray-200 dark:bg-gray-700">
             <div
-              className="h-full bg-primary transition-all duration-500 ease-out"
+              className="h-full bg-green-500 transition-all duration-500 ease-out"
               style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
             />
           </div>
@@ -279,9 +279,11 @@ const AddProduct = () => {
                   {/* Step Info - Hidden on mobile, shown on desktop */}
                   <div className="text-center hidden md:block">
                     <p
-                      className={`font-medium text-xs transition-colors duration-200 ${isActive || isCompleted
-                        ? 'text-black'
-                        : 'text-gray-500 dark:text-gray-400'
+                      className={`font-medium text-xs transition-colors duration-200 ${isCompleted
+                        ? 'text-green-600'
+                        : isActive
+                          ? 'text-primary'
+                          : 'text-gray-500 dark:text-gray-400'
                         }`}
                     >
                       {step.title}
@@ -313,15 +315,16 @@ const AddProduct = () => {
       <div className="mb-24 animate-fadeIn">{renderStepContent()}</div>
 
       {/* Navigation Buttons - Fixed Footer */}
-      <div className=" bottom-0 left-0 right-0 bg-white dark:bg-dark border-t border-gray-200 dark:border-gray-700 px-6 py-4 z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="fixed bottom-0 left-0 xl:left-[270px] right-0 
+      bg-transparent dark:bg-transparent backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50 px-6 py-4 z-40">
+        <div className="flex items-center justify-between">
           <Button
             color="light"
             className="flex items-center gap-2"
             onClick={handlePrevious}
             disabled={currentStep === 1}
           >
-            <Icon icon="solar:arrow-left-outline" className="w-4 h-4" />
+            <Icon icon="tabler:arrow-left" className="w-4 h-4" />
             Previous
           </Button>
 
@@ -338,7 +341,7 @@ const AddProduct = () => {
               onClick={handleNext}
             >
               Next Step
-              <Icon icon="solar:arrow-right-outline" className="w-4 h-4" />
+              <Icon icon="tabler:arrow-right" className="w-4 h-4" />
             </Button>
           ) : (
             <Button
@@ -346,7 +349,7 @@ const AddProduct = () => {
               className="flex items-center gap-2"
               onClick={handleSubmit}
             >
-              <Icon icon="solar:check-circle-bold" className="w-4 h-4" />
+              <Icon icon="tabler:check" className="w-4 h-4" />
               Create Event
             </Button>
           )}
