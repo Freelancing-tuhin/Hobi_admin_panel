@@ -1,6 +1,6 @@
 import { Label, Radio, TextInput, Button } from 'flowbite-react';
+import { Icon } from '@iconify/react';
 import CardBox from 'src/components/shared/CardBox';
-// import { Plus, Minus } from 'tabler-icons-react';
 
 const Pricing = ({ eventData, setEventData }: any) => {
   const handleRadioChange = (event: any) => {
@@ -26,103 +26,212 @@ const Pricing = ({ eventData, setEventData }: any) => {
   };
 
   return (
-    <CardBox>
-      <h5 className="card-title mb-4">Pricing</h5>
-      <div className="mb-4">
-        <div className="mb-2 block">
-          <Label htmlFor="isTicketed" value="Activity Type" />
+    <div className={`grid gap-6 items-start ${eventData.isTicketed ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
+      {/* Left Side - Activity Type Selection */}
+      <CardBox>
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Icon icon="tabler:ticket" className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <h5 className="text-lg font-semibold text-dark dark:text-white">Pricing</h5>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Set your event pricing</p>
+          </div>
         </div>
-        <div className="grid grid-cols-12 gap-6">
-          <div className="lg:col-span-6 col-span-12">
-            <div className="border border-ld p-4 rounded-xl hover:border-primary hover:bg-lightprimary cursor-pointer">
-              <div className="flex items-center gap-4 sm:ps-2">
-                <Radio
-                  id="free-activity"
-                  name="isTicketed"
-                  value="free"
-                  className="cursor-pointer"
-                  checked={!eventData.isTicketed}
-                  onChange={handleRadioChange}
-                />
-                <Label
-                  htmlFor="free-activity"
-                  className="cursor-pointer text-ld font-semibold text-base"
-                >
-                  Free Activity
-                </Label>
+
+        {/* Activity Type Selection */}
+        <Label className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-3 block">
+          Activity Type
+        </Label>
+        <div className="space-y-3">
+          <label
+            htmlFor="free-activity"
+            className={`relative flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${!eventData.isTicketed
+              ? 'border-primary bg-primary/5'
+              : 'border-gray-200 dark:border-gray-700 hover:border-primary/50'
+              }`}
+          >
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${!eventData.isTicketed ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-500'}`}>
+              <Icon icon="tabler:gift" className="w-5 h-5" />
+            </div>
+            <div className="flex-1">
+              <span className="font-semibold text-sm text-dark dark:text-white">Free Activity</span>
+              <p className="text-xs text-gray-500">No ticket required</p>
+            </div>
+            <Radio
+              id="free-activity"
+              name="isTicketed"
+              value="free"
+              checked={!eventData.isTicketed}
+              onChange={handleRadioChange}
+              className="sr-only"
+            />
+            {!eventData.isTicketed && (
+              <Icon icon="tabler:circle-check-filled" className="w-5 h-5 text-primary" />
+            )}
+          </label>
+
+          <label
+            htmlFor="ticketed-activity"
+            className={`relative flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${eventData.isTicketed
+              ? 'border-primary bg-primary/5'
+              : 'border-gray-200 dark:border-gray-700 hover:border-primary/50'
+              }`}
+          >
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${eventData.isTicketed ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-500'}`}>
+              <Icon icon="tabler:ticket" className="w-5 h-5" />
+            </div>
+            <div className="flex-1">
+              <span className="font-semibold text-sm text-dark dark:text-white">Ticketed Activity</span>
+              <p className="text-xs text-gray-500">Sell tickets</p>
+            </div>
+            <Radio
+              id="ticketed-activity"
+              name="isTicketed"
+              value="ticketed"
+              checked={eventData.isTicketed}
+              onChange={handleRadioChange}
+              className="sr-only"
+            />
+            {eventData.isTicketed && (
+              <Icon icon="tabler:circle-check-filled" className="w-5 h-5 text-primary" />
+            )}
+          </label>
+        </div>
+
+        {/* Free Activity Message */}
+        {!eventData.isTicketed && (
+          <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-100 dark:border-green-800">
+            <div className="flex items-center gap-3">
+              <Icon icon="tabler:check" className="w-5 h-5 text-green-600" />
+              <div>
+                <p className="text-sm font-medium text-green-700 dark:text-green-400">Free Event</p>
+                <p className="text-xs text-green-600 dark:text-green-300">No tickets will be required</p>
               </div>
             </div>
           </div>
-          <div className="lg:col-span-6 col-span-12">
-            <div className="border border-ld p-4 rounded-xl hover:border-primary hover:bg-lightprimary cursor-pointer">
-              <div className="flex items-center gap-4 sm:ps-2">
-                <Radio
-                  id="ticketed-activity"
-                  name="isTicketed"
-                  value="ticketed"
-                  className="cursor-pointer"
-                  checked={eventData.isTicketed}
-                  onChange={handleRadioChange}
-                />
-                <Label
-                  htmlFor="ticketed-activity"
-                  className="cursor-pointer text-ld font-semibold text-base"
-                >
-                  Ticketed Activity
-                </Label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        )}
+      </CardBox>
+
+      {/* Right Side - Tickets (Only shown when ticketed) */}
       {eventData.isTicketed && (
-        <>
-          {eventData.tickets.map((ticket: any, index: any) => (
-            <div key={index} className="mb-4 border p-4 rounded-lg">
-              <div className="mb-2 block">
-                <Label htmlFor={`ticketName-${index}`} value={`Ticket Name ${index + 1}`} />
+        <CardBox>
+          {/* Tickets Header */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Icon icon="tabler:list-details" className="w-5 h-5 text-primary" />
               </div>
-              <TextInput
-                id={`ticketName-${index}`}
-                type="text"
-                name="ticketName"
-                value={ticket.ticketName}
-                onChange={(e) => handleInputChange(index, 'ticketName', e.target.value)}
-                placeholder="Enter ticket name"
-              />
-              <div className="mb-2 block mt-3">
-                <Label htmlFor={`ticketPrice-${index}`} value="Ticket Price" />
+              <div>
+                <h5 className="text-lg font-semibold text-dark dark:text-white">Tickets</h5>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{eventData.tickets.length} ticket type{eventData.tickets.length !== 1 ? 's' : ''}</p>
               </div>
-              <TextInput
-                id={`ticketPrice-${index}`}
-                type="number"
-                name="ticketPrice"
-                value={ticket.ticketPrice}
-                onChange={(e) => handleInputChange(index, 'ticketPrice', e.target.value)}
-                placeholder="Enter ticket price"
-              />
-              <div className="mb-2 block mt-3">
-                <Label htmlFor={`ticketPrice-${index}`} value="Ticket Quantity" />
-              </div>
-              <TextInput
-                id={`quantity-${index}`}
-                type="number"
-                name="quantity"
-                value={ticket.quantity}
-                onChange={(e) => handleInputChange(index, 'quantity', e.target.value)}
-                placeholder="Enter ticket price"
-              />
-              <Button color="red" className="mt-3" onClick={() => removeTicket(index)}>
-                Remove Ticket
-              </Button>
             </div>
-          ))}
-          <Button color="primary" className="mt-3" onClick={addTicket}>
-            Add Ticket
-          </Button>
-        </>
+            <Button
+              size="sm"
+              color="primary"
+              onClick={addTicket}
+              className="flex items-center gap-1"
+            >
+              <Icon icon="tabler:plus" className="w-4 h-4" />
+              Add
+            </Button>
+          </div>
+
+          {/* Tickets List */}
+          {eventData.tickets.length === 0 ? (
+            <div className="p-8 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl text-center">
+              <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mx-auto mb-3">
+                <Icon icon="tabler:ticket-off" className="w-6 h-6 text-gray-400" />
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">No tickets added</p>
+              <p className="text-xs text-gray-400 mt-1">Click "Add" to create a ticket</p>
+            </div>
+          ) : (
+            <div className="space-y-3 max-h-[350px] overflow-y-auto pr-1">
+              {eventData.tickets.map((ticket: any, index: any) => (
+                <div
+                  key={index}
+                  className="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700"
+                >
+                  {/* Ticket Header */}
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold">
+                        {index + 1}
+                      </div>
+                      <span className="font-medium text-sm text-dark dark:text-white">
+                        {ticket.ticketName || `Ticket ${index + 1}`}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeTicket(index)}
+                      className="p-1 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                    >
+                      <Icon icon="tabler:trash" className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Ticket Fields */}
+                  <div className="grid grid-cols-3 gap-2">
+                    <div>
+                      <Label className="text-xs text-gray-500 mb-1 block">Name</Label>
+                      <TextInput
+                        type="text"
+                        value={ticket.ticketName}
+                        onChange={(e) => handleInputChange(index, 'ticketName', e.target.value)}
+                        placeholder="VIP"
+                        sizing="sm"
+                        className="form-control"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-500 mb-1 block">Price (₹)</Label>
+                      <TextInput
+                        type="number"
+                        value={ticket.ticketPrice}
+                        onChange={(e) => handleInputChange(index, 'ticketPrice', e.target.value)}
+                        placeholder="500"
+                        sizing="sm"
+                        className="form-control"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-xs text-gray-500 mb-1 block">Qty</Label>
+                      <TextInput
+                        type="number"
+                        value={ticket.quantity}
+                        onChange={(e) => handleInputChange(index, 'quantity', e.target.value)}
+                        placeholder="100"
+                        sizing="sm"
+                        className="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Summary */}
+          {eventData.tickets.length > 0 && (
+            <div className="mt-4 p-3 bg-primary/5 rounded-xl flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Icon icon="tabler:chart-pie" className="w-4 h-4 text-primary" />
+                <span className="text-xs text-primary font-medium">
+                  Total capacity
+                </span>
+              </div>
+              <span className="text-sm font-bold text-primary">
+                {eventData.tickets.reduce((sum: number, t: any) => sum + (parseInt(t.quantity) || 0), 0)} seats
+              </span>
+            </div>
+          )}
+        </CardBox>
       )}
-    </CardBox>
+    </div>
   );
 };
 

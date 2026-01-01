@@ -215,9 +215,7 @@ const AddProduct = () => {
         );
       case 5:
         return (
-          <div className="max-w-2xl mx-auto">
-            <Pricing eventData={eventData} setEventData={setEventData} />
-          </div>
+          <Pricing eventData={eventData} setEventData={setEventData} />
         );
       default:
         return null;
@@ -267,7 +265,7 @@ const AddProduct = () => {
                     className={`relative z-10 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-200 ${isActive
                       ? 'bg-primary text-white'
                       : isCompleted
-                        ? 'bg-primary text-white'
+                        ? 'bg-green-500 text-white'
                         : 'bg-white dark:bg-gray-800 text-gray-400 border border-gray-300'
                       }`}
                   >
@@ -282,7 +280,7 @@ const AddProduct = () => {
                   <div className="text-center hidden md:block">
                     <p
                       className={`font-medium text-xs transition-colors duration-200 ${isActive || isCompleted
-                        ? 'text-primary'
+                        ? 'text-black'
                         : 'text-gray-500 dark:text-gray-400'
                         }`}
                     >
