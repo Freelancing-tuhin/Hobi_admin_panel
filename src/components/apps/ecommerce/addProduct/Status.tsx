@@ -32,7 +32,7 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
 
   return (
     <Card className="p-6 shadow-md">
-      <h5 className="text-lg font-semibold mb-4">Activity Details</h5>
+      <h5 className="text-lg font-semibold mb-4">Location Details</h5>
 
       <div className="mb-4">
         <Label htmlFor="location" value="Location" className="font-medium" />
