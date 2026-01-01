@@ -1,4 +1,5 @@
-import { Label, TextInput } from 'flowbite-react';
+import { Label, TextInput, Textarea } from 'flowbite-react';
+import { Icon } from '@iconify/react';
 import CardBox from 'src/components/shared/CardBox';
 
 interface GeneralDetailProps {
@@ -10,47 +11,67 @@ interface GeneralDetailProps {
 const GeneralDetail: React.FC<GeneralDetailProps> = ({ title, description, handleChange }) => {
   return (
     <CardBox>
-      <h5 className="card-title mb-4">General</h5>
-      {/* Title Input */}
-      <div className="mb-4">
-        <div className="mb-2 block">
-          <Label htmlFor="prednm" value="Event Name" />
-          <span className="text-error ms-1">*</span>
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <Icon icon="tabler:file-description" className="w-5 h-5 text-primary" />
         </div>
-        <TextInput
-          id="prednm"
-          name="title"
-          type="text"
-          value={title}
-          onChange={handleChange}
-          sizing="md"
-          className="form-control"
-          placeholder="Event Name"
-        />
-        <small className="text-xs text-darklink dark:text-bodytext">
-          An event name is required and recommended to be unique.
-        </small>
+        <div>
+          <h5 className="text-lg font-semibold text-dark dark:text-white">Event Details</h5>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Basic information about your event</p>
+        </div>
+      </div>
+
+      {/* Event Name Input */}
+      <div className="mb-6">
+        <Label className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2 block">
+          Event Name <span className="text-error">*</span>
+        </Label>
+        <div className="relative">
+
+          <TextInput
+            id="event-name"
+            name="title"
+            type="text"
+            value={title}
+            onChange={handleChange}
+            sizing="md"
+            className="form-control [&>input]:pl-10"
+            placeholder="Enter your event name"
+          />
+        </div>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+          Choose a clear, descriptive name that represents your event
+        </p>
       </div>
 
       {/* Description Input */}
       <div>
-        <div className="mb-2 block">
-          <Label htmlFor="desc" value="Description" />
+        <Label className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2 block">
+          Description
+        </Label>
+        <div className="relative">
+          <Textarea
+            id="event-description"
+            name="description"
+            value={description}
+            onChange={handleChange}
+            rows={4}
+            className="form-control resize-none"
+            placeholder="Tell people what your event is about..."
+          />
         </div>
-        <TextInput
-          id="prednm"
-          name="description"
-          type="text"
-          value={description}
-          onChange={handleChange}
-          sizing="lg"
-          className="form-control"
-          placeholder="Event Details"
-        />
-        <small className="text-xs text-darklink dark:text-bodytext">
-          Set a description for better visibility.
-        </small>
+        <div className="flex items-center justify-between mt-2">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            A good description helps attendees understand your event
+          </p>
+          <span className="text-xs text-gray-400">
+            {description.length}/500
+          </span>
+        </div>
       </div>
+
+
     </CardBox>
   );
 };

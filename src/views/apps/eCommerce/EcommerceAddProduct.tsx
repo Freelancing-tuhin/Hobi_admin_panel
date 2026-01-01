@@ -28,7 +28,7 @@ const BCrumb = [
 const STEPS = [
   { id: 1, title: 'Basic Info', icon: 'tabler:file-description' },
   { id: 2, title: 'Date & Time', icon: 'tabler:calendar-event' },
-  { id: 3, title: 'Location', icon: 'tabler:map-pin' },
+  { id: 3, title: 'Category', icon: 'tabler:category' },
   { id: 4, title: 'Media', icon: 'tabler:photo' },
   { id: 5, title: 'Pricing', icon: 'tabler:tag' },
 ];
@@ -82,8 +82,8 @@ const AddProduct = () => {
           setStepErrors({ ...stepErrors, 1: 'Event name is required' });
           return false;
         }
-        if (!eventData.category) {
-          setStepErrors({ ...stepErrors, 1: 'Please select a category' });
+        if (!eventData.location.address) {
+          setStepErrors({ ...stepErrors, 1: 'Location is required' });
           return false;
         }
         return true;
@@ -106,8 +106,8 @@ const AddProduct = () => {
         }
         return true;
       case 3:
-        if (!eventData.location.address) {
-          setStepErrors({ ...stepErrors, 3: 'Location is required' });
+        if (!eventData.category) {
+          setStepErrors({ ...stepErrors, 3: 'Please select a category' });
           return false;
         }
         return true;
@@ -185,15 +185,15 @@ const AddProduct = () => {
       case 1:
         return (
           <div className="grid grid-cols-12 gap-6">
-            <div className="lg:col-span-8 col-span-12">
+            <div className="lg:col-span-7 col-span-12">
               <GeneralDetail
                 title={eventData.title}
                 description={eventData.description}
                 handleChange={handleChange}
               />
             </div>
-            <div className="lg:col-span-4 col-span-12">
-              <ProductData eventData={eventData} setEventData={setEventData} />
+            <div className="lg:col-span-5 col-span-12">
+              <Status eventData={eventData} setEventData={setEventData} />
             </div>
           </div>
         );
@@ -203,8 +203,8 @@ const AddProduct = () => {
         );
       case 3:
         return (
-          <div className="max-w-2xl mx-auto">
-            <Status eventData={eventData} setEventData={setEventData} />
+          <div className="max-w-4xl mx-auto">
+            <ProductData eventData={eventData} setEventData={setEventData} />
           </div>
         );
       case 4:

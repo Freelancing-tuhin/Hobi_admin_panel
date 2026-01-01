@@ -171,8 +171,8 @@ const TimePicker = ({ label, value, onChange, icon }: { label: string; value: st
             type="button"
             onClick={() => handleChange(hour, minute, 'AM')}
             className={`px-4 py-3 text-sm font-semibold transition-colors ${period === 'AM'
-                ? 'bg-primary text-white'
-                : 'bg-white dark:bg-gray-800 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700'
+              ? 'bg-primary text-white'
+              : 'bg-white dark:bg-gray-800 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
           >
             AM
@@ -181,8 +181,8 @@ const TimePicker = ({ label, value, onChange, icon }: { label: string; value: st
             type="button"
             onClick={() => handleChange(hour, minute, 'PM')}
             className={`px-4 py-3 text-sm font-semibold transition-colors ${period === 'PM'
-                ? 'bg-primary text-white'
-                : 'bg-white dark:bg-gray-800 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700'
+              ? 'bg-primary text-white'
+              : 'bg-white dark:bg-gray-800 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
           >
             PM
@@ -234,7 +234,7 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Card - Activity Type */}
         <CardBox>
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 -mt-5 mb-6">
             <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
               <Icon icon="tabler:category" className="w-5 h-5 text-primary" />
             </div>
