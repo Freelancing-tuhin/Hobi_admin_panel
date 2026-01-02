@@ -1,5 +1,4 @@
 import { UserDataProvider } from 'src/context/UserDataContext';
-import Introduction from './Introduction';
 import ProfileBanner from './ProfileBanner';
 import DocumentUploader from './Documents';
 import BankDetails from './BankDetails';

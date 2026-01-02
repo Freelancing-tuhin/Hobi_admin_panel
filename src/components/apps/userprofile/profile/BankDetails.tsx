@@ -55,14 +55,11 @@ const BankDetails = () => {
     }
   };
 
-  // Check if fields are filled for verification status
-  const isPanVerified = user?.PAN && user.PAN.length === 10;
-  const isGstVerified = user?.GST && user.GST.length === 15;
-  const isBankVerified = user?.bank_account && user?.IFSC_code;
+
 
   const steps = [
-    { number: 1, title: 'Tax Information', subtitle: 'PAN & GST Details' },
-    { number: 2, title: 'Bank Account', subtitle: 'Account & IFSC' },
+    { number: 1, title: 'Bank Account', subtitle: 'Account & IFSC' },
+    { number: 2, title: 'Tax Information', subtitle: 'PAN & GST Details' },
   ];
 
   return (
@@ -135,10 +132,172 @@ const BankDetails = () => {
                 </div>
               </div>
 
-              {/* Step 1: Tax Information */}
+              {/* Step 1: Bank Account */}
               {step === 1 && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Bank Card Preview - LEFT */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-full max-w-sm">
+                      {/* Virtual Bank Card */}
+                      <div className="relative bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-2xl p-6 shadow-2xl overflow-hidden">
+                        {/* Card Pattern */}
+                        <div className="absolute inset-0 opacity-10">
+                          <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
+                          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
+                        </div>
+
+                        {/* Card Content */}
+                        <div className="relative z-10">
+                          <div className="flex items-center justify-between mb-8">
+                            <Icon icon="solar:wallet-bold" height={32} className="text-[#b03052]" />
+                            <div className="flex gap-1">
+                              <div className="w-8 h-8 bg-red-500 rounded-full opacity-80" />
+                              <div className="w-8 h-8 bg-yellow-500 rounded-full opacity-80 -ml-3" />
+                            </div>
+                          </div>
+
+                          <div className="mb-6">
+                            <p className="text-gray-400 text-xs mb-1">Account Number</p>
+                            <p className="text-white font-mono text-xl tracking-widest">
+                              {bankDetails.bank_account
+                                ? `**** **** ${bankDetails.bank_account.slice(-4) || '****'}`
+                                : '**** **** **** ****'
+                              }
+                            </p>
+                          </div>
+
+                          <div className="flex justify-between items-end">
+                            <div>
+                              <p className="text-gray-400 text-xs mb-1">IFSC</p>
+                              <p className="text-white font-mono tracking-wider text-sm">
+                                {bankDetails.IFSC_code || 'XXXXXXX0000'}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-gray-400 text-xs mb-1">Type</p>
+                              <p className="text-white text-sm capitalize">
+                                {bankDetails.bank_account_type || 'Account'}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Security Note */}
+                      <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
+                        <Icon icon="solar:lock-bold" height={14} />
+                        <span>Your data is secured with bank-level encryption</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Input Fields - RIGHT */}
                   <div className="space-y-5">
+                    {/* Bank Account */}
+                    <div className="group">
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <Icon icon="solar:wallet-bold" height={18} className="text-[#b03052]" />
+                        Bank Account Number
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          name="bank_account"
+                          value={bankDetails.bank_account}
+                          onChange={(e) => setBankDetails({ ...bankDetails, bank_account: e.target.value })}
+                          placeholder="Enter account number"
+                          className="w-full px-4 py-2 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-base tracking-wider"
+                        />
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                          <Icon icon="solar:wallet-outline" height={20} className="text-gray-400" />
+                        </div>
+                        {bankDetails.bank_account.length >= 9 && (
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                            <Icon icon="solar:check-circle-bold" height={20} className="text-emerald-500" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Account Type */}
+                    <div className="group">
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <Icon icon="solar:folder-bold" height={18} className="text-[#b03052]" />
+                        Account Type
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="bank_account_type"
+                          value={bankDetails.bank_account_type}
+                          onChange={(e) => setBankDetails({ ...bankDetails, bank_account_type: e.target.value })}
+                          className="w-full px-4 py-2 pl-12 text-black/70 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all appearance-none cursor-pointer"
+                        >
+                          <option value="">Select Account Type</option>
+                          <option value="savings">Savings Account</option>
+                          <option value="current">Current Account</option>
+                          <option value="salary">Salary Account</option>
+                          <option value="business">Business Account</option>
+                        </select>
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                          <Icon icon="solar:folder-outline" height={20} className="text-gray-400" />
+                        </div>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                          <Icon icon="solar:alt-arrow-down-linear" height={20} className="text-gray-400" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* IFSC Code */}
+                    <div className="group">
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <Icon icon="solar:buildings-bold" height={18} className="text-[#b03052]" />
+                        IFSC Code
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          name="IFSC_code"
+                          value={bankDetails.IFSC_code}
+                          onChange={handleChange}
+                          maxLength={11}
+                          placeholder="SBIN0001234"
+                          className="w-full px-4 py-2 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-base tracking-wider uppercase"
+                        />
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                          <Icon icon="solar:buildings-outline" height={20} className="text-gray-400" />
+                        </div>
+                        {bankDetails.IFSC_code.length === 11 && (
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                            <Icon icon="solar:check-circle-bold" height={20} className="text-emerald-500" />
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+                        <Icon icon="solar:info-circle-outline" height={14} />
+                        11-character bank branch code
+                      </p>
+                    </div>
+
+                    {/* Next Button */}
+                    <button
+                      onClick={() => setStep(2)}
+                      disabled={!bankDetails.bank_account || !bankDetails.IFSC_code || !bankDetails.bank_account_type}
+                      className="w-full mt-4 bg-gradient-to-r from-[#b03052] to-[#8a2542] text-white py-3.5 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#b03052]/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Continue to Tax Details
+                      <Icon icon="solar:arrow-right-linear" height={20} />
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 2: Tax Information */}
+              {step === 2 && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="space-y-7">
                     {/* PAN Input */}
                     <div className="group">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -197,21 +356,30 @@ const BankDetails = () => {
                           </div>
                         )}
                       </div>
-                      <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+                      <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1 mb-6">
                         <Icon icon="solar:info-circle-outline" height={14} />
-                        15-character GST Identification Number
+                        15-character GST Identification Number (Optional)
                       </p>
                     </div>
 
-                    {/* Next Button */}
-                    <button
-                      onClick={() => setStep(2)}
-                      disabled={!bankDetails.PAN}
-                      className="w-full mt-4 bg-gradient-to-r from-[#b03052] to-[#8a2542] text-white py-3.5 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#b03052]/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Continue to Bank Details
-                      <Icon icon="solar:arrow-right-linear" height={20} />
-                    </button>
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 mt-6">
+                      <button
+                        onClick={() => setStep(1)}
+                        className="flex-1 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
+                      >
+                        <Icon icon="solar:arrow-left-linear" height={20} />
+                        Back
+                      </button>
+                      <button
+                        onClick={handleSubmit}
+                        disabled={!bankDetails.PAN}
+                        className="flex-[2] bg-gradient-to-r from-[#b03052] to-[#8a2542] text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#b03052]/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <Icon icon="solar:shield-check-bold" height={20} />
+                        Save & Verify
+                      </button>
+                    </div>
                   </div>
 
                   {/* Info Panel */}
@@ -249,176 +417,6 @@ const BankDetails = () => {
                           <p className="font-medium text-sm text-gray-800 dark:text-gray-200">Secure Storage</p>
                           <p className="text-xs text-gray-500">End-to-end encrypted data</p>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 2: Bank Account */}
-              {step === 2 && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div className="space-y-5">
-                    {/* Bank Account */}
-                    <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        <Icon icon="solar:wallet-bold" height={18} className="text-[#b03052]" />
-                        Bank Account Number
-                        <span className="text-red-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          name="bank_account"
-                          value={bankDetails.bank_account}
-                          onChange={(e) => setBankDetails({ ...bankDetails, bank_account: e.target.value })}
-                          placeholder="Enter account number"
-                          className="w-full px-4 py-2 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-base tracking-wider"
-                        />
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                          <Icon icon="solar:wallet-outline" height={20} className="text-gray-400" />
-                        </div>
-                        {bankDetails.bank_account.length >= 9 && (
-                          <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                            <Icon icon="solar:check-circle-bold" height={20} className="text-emerald-500" />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Account Type */}
-                    <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        <Icon icon="solar:folder-bold" height={18} className="text-[#b03052]" />
-                        Account Type
-                        <span className="text-red-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <select
-                          name="bank_account_type"
-                          value={bankDetails.bank_account_type}
-                          onChange={(e) => setBankDetails({ ...bankDetails, bank_account_type: e.target.value })}
-                          className="w-full px-4 py-3 pl-12 text-black/70 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all appearance-none cursor-pointer"
-                        >
-                          <option value="">Select Account Type</option>
-                          <option value="savings">Savings Account</option>
-                          <option value="current">Current Account</option>
-                          <option value="salary">Salary Account</option>
-                          <option value="business">Business Account</option>
-                        </select>
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                          <Icon icon="solar:folder-outline" height={20} className="text-gray-400" />
-                        </div>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                          <Icon icon="solar:alt-arrow-down-linear" height={20} className="text-gray-400" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* IFSC Code */}
-                    <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        <Icon icon="solar:buildings-bold" height={18} className="text-[#b03052]" />
-                        IFSC Code
-                        <span className="text-red-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          name="IFSC_code"
-                          value={bankDetails.IFSC_code}
-                          onChange={handleChange}
-                          maxLength={11}
-                          placeholder="SBIN0001234"
-                          className="w-full px-4 py-2 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-base tracking-wider uppercase"
-                        />
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                          <Icon icon="solar:buildings-outline" height={20} className="text-gray-400" />
-                        </div>
-                        {bankDetails.IFSC_code.length === 11 && (
-                          <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                            <Icon icon="solar:check-circle-bold" height={20} className="text-emerald-500" />
-                          </div>
-                        )}
-                      </div>
-                      <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
-                        <Icon icon="solar:info-circle-outline" height={14} />
-                        11-character bank branch code
-                      </p>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-3 mt-6">
-                      <button
-                        onClick={() => setStep(1)}
-                        className="flex-1 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
-                      >
-                        <Icon icon="solar:arrow-left-linear" height={20} />
-                        Back
-                      </button>
-                      <button
-                        onClick={handleSubmit}
-                        disabled={!bankDetails.bank_account || !bankDetails.IFSC_code || !bankDetails.bank_account_type}
-                        className="flex-[2] bg-gradient-to-r from-[#b03052] to-[#8a2542] text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        <Icon icon="solar:shield-check-bold" height={20} />
-                        Save & Verify
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Bank Card Preview */}
-                  <div className="flex items-center justify-center">
-                    <div className="w-full max-w-sm">
-                      {/* Virtual Bank Card */}
-                      <div className="relative bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-2xl p-6 shadow-2xl overflow-hidden">
-                        {/* Card Pattern */}
-                        <div className="absolute inset-0 opacity-10">
-                          <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
-                          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
-                        </div>
-
-                        {/* Card Content */}
-                        <div className="relative z-10">
-                          <div className="flex items-center justify-between mb-8">
-                            <Icon icon="solar:wallet-bold" height={32} className="text-[#b03052]" />
-                            <div className="flex gap-1">
-                              <div className="w-8 h-8 bg-red-500 rounded-full opacity-80" />
-                              <div className="w-8 h-8 bg-yellow-500 rounded-full opacity-80 -ml-3" />
-                            </div>
-                          </div>
-
-                          <div className="mb-6">
-                            <p className="text-gray-400 text-xs mb-1">Account Number</p>
-                            <p className="text-white font-mono text-xl tracking-widest">
-                              {bankDetails.bank_account
-                                ? `**** **** ${bankDetails.bank_account.slice(-4) || '****'}`
-                                : '**** **** **** ****'
-                              }
-                            </p>
-                          </div>
-
-                          <div className="flex justify-between items-end">
-                            <div>
-                              <p className="text-gray-400 text-xs mb-1">IFSC</p>
-                              <p className="text-white font-mono tracking-wider text-sm">
-                                {bankDetails.IFSC_code || 'XXXXXXX0000'}
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-gray-400 text-xs mb-1">Type</p>
-                              <p className="text-white text-sm capitalize">
-                                {bankDetails.bank_account_type || 'Account'}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Security Note */}
-                      <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
-                        <Icon icon="solar:lock-bold" height={14} />
-                        <span>Your data is secured with bank-level encryption</span>
                       </div>
                     </div>
                   </div>
