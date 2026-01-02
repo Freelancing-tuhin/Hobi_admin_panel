@@ -80,7 +80,7 @@ const BankDetails = () => {
           <div className="flex items-start justify-between mb-6">
             <div>
               <h2 className="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-                <Icon icon="solar:safe-square-bold-duotone" height={28} className="text-[#b03052]" />
+                <Icon icon="solar:wallet-money-bold-duotone" height={28} className="text-[#b03052]" />
                 Financial Information
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -102,7 +102,7 @@ const BankDetails = () => {
                     <div key={s.number} className="flex-1 relative">
                       <div className="flex items-center">
                         <div
-                          className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg transition-all duration-300 ${step === s.number
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-base transition-all duration-300 ${step === s.number
                             ? 'bg-gradient-to-br from-[#b03052] to-[#8a2542] text-white shadow-lg shadow-[#b03052]/30'
                             : step > s.number
                               ? 'bg-emerald-500 text-white'
@@ -154,7 +154,8 @@ const BankDetails = () => {
                           onChange={handleChange}
                           maxLength={10}
                           placeholder="ABCDE1234F"
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                          className="w-full px-4 py-2 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800
+                           rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-base tracking-wider uppercase"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:card-outline" height={20} className="text-gray-400" />
@@ -185,7 +186,7 @@ const BankDetails = () => {
                           onChange={handleChange}
                           maxLength={15}
                           placeholder="22AAAAA0000A1Z5"
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200  text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                          className="w-full px-4 py-2 pl-12 border-2 border-gray-200  text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-base tracking-wider uppercase"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:document-outline" height={20} className="text-gray-400" />
@@ -219,7 +220,7 @@ const BankDetails = () => {
                       <div className="w-20 h-20 bg-white dark:bg-gray-700 rounded-2xl shadow-lg mx-auto flex items-center justify-center mb-4">
                         <Icon icon="solar:shield-user-bold-duotone" height={48} className="text-[#b03052]" />
                       </div>
-                      <h3 className="font-bold text-lg text-gray-800 dark:text-white">Why We Need This?</h3>
+                      <h3 className="font-bold text-base text-gray-800 dark:text-white">Why We Need This?</h3>
                     </div>
                     <div className="space-y-4">
                       <div className="flex items-start gap-3">
@@ -272,7 +273,7 @@ const BankDetails = () => {
                           value={bankDetails.bank_account}
                           onChange={(e) => setBankDetails({ ...bankDetails, bank_account: e.target.value })}
                           placeholder="Enter account number"
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider"
+                          className="w-full px-4 py-2 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-base tracking-wider"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:wallet-outline" height={20} className="text-gray-400" />
@@ -329,7 +330,7 @@ const BankDetails = () => {
                           onChange={handleChange}
                           maxLength={11}
                           placeholder="SBIN0001234"
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                          className="w-full px-4 py-2 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-base tracking-wider uppercase"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:buildings-outline" height={20} className="text-gray-400" />
@@ -350,7 +351,7 @@ const BankDetails = () => {
                     <div className="flex gap-3 mt-6">
                       <button
                         onClick={() => setStep(1)}
-                        className="flex-1 py-3.5 border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
+                        className="flex-1 py-3 border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
                       >
                         <Icon icon="solar:arrow-left-linear" height={20} />
                         Back
@@ -358,7 +359,7 @@ const BankDetails = () => {
                       <button
                         onClick={handleSubmit}
                         disabled={!bankDetails.bank_account || !bankDetails.IFSC_code || !bankDetails.bank_account_type}
-                        className="flex-[2] bg-gradient-to-r from-emerald-500 to-emerald-600 text-white py-3.5 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-[2] bg-gradient-to-r from-[#b03052] to-[#8a2542] text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Icon icon="solar:shield-check-bold" height={20} />
                         Save & Verify
