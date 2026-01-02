@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Label } from 'flowbite-react';
+// import { Label } from 'flowbite-react';
 import { Icon } from '@iconify/react';
 import CardBox from 'src/components/shared/CardBox';
 import axios from 'axios';
@@ -29,7 +29,7 @@ const ProductData = ({ eventData, setEventData }: any) => {
     setEventData((prevData: any) => ({ ...prevData, category: categoryId }));
   };
 
-  const selectedCategory = categories.find((cat) => cat._id === eventData?.category);
+  // const selectedCategory = categories.find((cat) => cat._id === eventData?.category);
 
   return (
     <CardBox>

@@ -3,19 +3,10 @@ import { format } from 'date-fns';
 import { Table, Pagination, Button } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import EditEventModal from './EditEventModal';
 import { deleteEvent } from 'src/service/deleteEvent';
-// import { deleteEvent } from 'src/service/deleteEvent';
 
 const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
-  const [editedevents, setEditedevents] = useState();
-  const [openEditModal, setOpenEditModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const OpenModal = (data: any) => {
-    setOpenEditModal(true);
-    setEditedevents(data);
-  };
 
   const handleDeleteEvent = async (eventId: any) => {
     try {
@@ -77,8 +68,8 @@ const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
                       <svg
                         key={index}
                         className={`w-4 h-4 ms-1 ${index < item?.ratings
-                            ? 'text-yellow-300'
-                            : 'text-gray-300 dark:text-gray-500'
+                          ? 'text-yellow-300'
+                          : 'text-gray-300 dark:text-gray-500'
                           }`}
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
@@ -106,27 +97,29 @@ const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
                       color="blue"
                       size="xs"
                       className="bg-[#b03052]"
-                    // onClick={() => openEditModal(service)}
                     >
                       <Icon icon="solar:presentation-graph-bold" height="18" />
+                      Dashboard
                     </Button>
                   </Link>
-                  <Button
-                    color="blue"
-                    size="xs"
-                    className="bg-gray-500"
-                    onClick={() => OpenModal(item)}
-                  >
-                    <Icon icon="material-symbols:edit-document" height="18" />
-                  </Button>
-                  <Button
+                  <Link to={`/Event/edit/${item._id}`}>
+                    <Button
+                      color="blue"
+                      size="xs"
+                      className="bg-gray-500"
+                    >
+                      <Icon icon="material-symbols:edit-document" height="18" />
+                      Edit
+                    </Button>
+                  </Link>
+                  {/* <Button
                     color="blue"
                     size="xs"
                     className="bg-red-500"
                     onClick={() => handleDeleteEvent(item._id)}
                   >
                     <Icon icon="hugeicons:delete-03" height="19" />
-                  </Button>
+                  </Button> */}
                 </Table.Cell>
               </Table.Row>
             ))}
@@ -140,15 +133,9 @@ const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
           onPageChange={(page) => setCurrentPage(page)}
         />
       </div>
-
-      <EditEventModal
-        eventData={editedevents}
-        open={openEditModal}
-        onClose={() => setOpenEditModal(false)}
-        getEvents={() => getEvents(currentPage)}
-      />
     </>
   );
 };
 
 export default EventTable;
+

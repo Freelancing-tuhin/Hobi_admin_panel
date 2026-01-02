@@ -24,6 +24,9 @@ const EcommerceAddProduct = Loadable(
 const EcommerceEditProduct = Loadable(
   lazy(() => import('../views/apps/eCommerce/EcommerceEditProduct')),
 );
+const EcommerceEditEvent = Loadable(
+  lazy(() => import('../views/apps/eCommerce/EcommerceEditEvent')),
+);
 const EcomProductList = Loadable(lazy(() => import('../views/apps/eCommerce/EcomProductList')));
 const EcomProductCheckout = Loadable(
   lazy(() => import('../views/apps/eCommerce/EcommerceCheckout')),
@@ -245,6 +248,15 @@ const Router = [
         element: (
           <ProtectedRoute>
             <EcommerceAddProduct />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/Event/edit/:id',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <EcommerceEditEvent />
           </ProtectedRoute>
         ),
       },
