@@ -2,6 +2,7 @@ import GeneralDetail from 'src/components/apps/ecommerce/addProduct/GeneralDetai
 import Pricing from 'src/components/apps/ecommerce/addProduct/Pricing';
 import ProductData from 'src/components/apps/ecommerce/addProduct/ProductData';
 import Status from 'src/components/apps/ecommerce/addProduct/Status';
+import SupportingImages from 'src/components/apps/ecommerce/addProduct/SupportingImages';
 import EditEventSchedule from 'src/components/apps/ecommerce/editProduct/EditEventSchedule';
 import Thumbnail from 'src/components/apps/ecommerce/editProduct/Thumbnail';
 import BreadcrumbComp from 'src/layouts/full/shared/breadcrumb/BreadcrumbComp';
@@ -64,6 +65,7 @@ const EditEvent = () => {
     const navigate = useNavigate();
     const [banner, setBanner] = useState<string | null>(null);
     const [bannerFile, setBannerFile] = useState<File | null>(null);
+    const [supportingImages, setSupportingImages] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     // Fetch event data on mount
@@ -102,6 +104,11 @@ const EditEvent = () => {
                     // Set banner image if available
                     if (event.banner_Image) {
                         setBanner(event.banner_Image);
+                    }
+
+                    // Set supporting images if available
+                    if (event.supportingImages && Array.isArray(event.supportingImages)) {
+                        setSupportingImages(event.supportingImages);
                     }
                 }
             } catch (error) {
@@ -230,6 +237,7 @@ const EditEvent = () => {
                 description: eventData.description,
                 isTicketed: eventData.isTicketed,
                 tickets: eventData.tickets,
+                supportingImages: supportingImages,
             };
 
             // If a new banner file was uploaded, we'd need to handle it separately
@@ -274,6 +282,10 @@ const EditEvent = () => {
                 return (
                     <div className="max-w-2xl mx-auto">
                         <Thumbnail onBannerChange={handleBannerChange} setBanner={setBanner} banner={banner} />
+                        <SupportingImages
+                            supportingImages={supportingImages}
+                            setSupportingImages={setSupportingImages}
+                        />
                     </div>
                 );
             case 5:

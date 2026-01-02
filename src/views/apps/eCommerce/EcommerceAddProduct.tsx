@@ -3,6 +3,7 @@ import Pricing from 'src/components/apps/ecommerce/addProduct/Pricing';
 import ProductData from 'src/components/apps/ecommerce/addProduct/ProductData';
 import Status from 'src/components/apps/ecommerce/addProduct/Status';
 import Variation from 'src/components/apps/ecommerce/addProduct/Variation';
+import SupportingImages from 'src/components/apps/ecommerce/addProduct/SupportingImages';
 import Thumbnail from 'src/components/apps/ecommerce/editProduct/Thumbnail';
 import BreadcrumbComp from 'src/layouts/full/shared/breadcrumb/BreadcrumbComp';
 import { Button } from 'flowbite-react';
@@ -57,6 +58,7 @@ const AddProduct = () => {
   const navigate = useNavigate();
   const [banner, setBanner] = useState<string | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
+  const [supportingImages, setSupportingImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -168,6 +170,7 @@ const AddProduct = () => {
       ...eventData,
       eventDates: eventData.eventDates,
       bannerImage: bannerFile!,
+      supportingImages: supportingImages,
     };
 
     console.log('Submitting event:', eventPayload);
@@ -212,6 +215,10 @@ const AddProduct = () => {
         return (
           <div className="max-w-2xl mx-auto">
             <Thumbnail onBannerChange={handleBannerChange} setBanner={setBanner} banner={banner} />
+            <SupportingImages
+              supportingImages={supportingImages}
+              setSupportingImages={setSupportingImages}
+            />
           </div>
         );
       case 5:

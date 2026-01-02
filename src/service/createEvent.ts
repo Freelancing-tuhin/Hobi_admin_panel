@@ -15,6 +15,7 @@ export interface CreateEventPayload {
   };
   description: string;
   bannerImage: File;
+  supportingImages?: string[];  // Array of Cloudinary URLs
   isTicketed: boolean;
   tickets?: any;
   organizerId: string;
@@ -44,6 +45,11 @@ export const createEvent = async (eventData: CreateEventPayload): Promise<void> 
 
     if (eventData.isTicketed && eventData.tickets) {
       formData.append('tickets', JSON.stringify(eventData.tickets));
+    }
+
+    // Send supporting images as JSON array of URLs
+    if (eventData.supportingImages && eventData.supportingImages.length > 0) {
+      formData.append('supportingImages', JSON.stringify(eventData.supportingImages));
     }
 
     formData.append('organizerId', eventData.organizerId);
