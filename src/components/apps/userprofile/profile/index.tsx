@@ -23,7 +23,7 @@ const UserProfileApp = () => {
           <div className="w-full">
             <Tabs aria-label="Profile sections" variant="underline" className="profile-tabs">
               {/* Profile Tab */}
-              <Tabs.Item
+              {/* <Tabs.Item
                 active
                 title="Profile"
                 icon={() => <Icon icon="solar:user-circle-outline" height={20} />}
@@ -31,7 +31,7 @@ const UserProfileApp = () => {
                 <div className="mt-4">
                   <Introduction />
                 </div>
-              </Tabs.Item>
+              </Tabs.Item> */}
 
               {/* Bank Details Tab */}
               <Tabs.Item

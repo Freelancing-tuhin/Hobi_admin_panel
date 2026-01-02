@@ -154,7 +154,7 @@ const BankDetails = () => {
                           onChange={handleChange}
                           maxLength={10}
                           placeholder="ABCDE1234F"
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:card-outline" height={20} className="text-gray-400" />
@@ -185,7 +185,7 @@ const BankDetails = () => {
                           onChange={handleChange}
                           maxLength={15}
                           placeholder="22AAAAA0000A1Z5"
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200  text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:document-outline" height={20} className="text-gray-400" />
@@ -272,7 +272,7 @@ const BankDetails = () => {
                           value={bankDetails.bank_account}
                           onChange={(e) => setBankDetails({ ...bankDetails, bank_account: e.target.value })}
                           placeholder="Enter account number"
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider"
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:wallet-outline" height={20} className="text-gray-400" />
@@ -297,13 +297,13 @@ const BankDetails = () => {
                           name="bank_account_type"
                           value={bankDetails.bank_account_type}
                           onChange={(e) => setBankDetails({ ...bankDetails, bank_account_type: e.target.value })}
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all appearance-none cursor-pointer"
+                          className="w-full px-4 py-3 pl-12 text-black/70 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all appearance-none cursor-pointer"
                         >
                           <option value="">Select Account Type</option>
-                          <option value="savings">💰 Savings Account</option>
-                          <option value="current">🏢 Current Account</option>
-                          <option value="salary">💼 Salary Account</option>
-                          <option value="business">📊 Business Account</option>
+                          <option value="savings">Savings Account</option>
+                          <option value="current">Current Account</option>
+                          <option value="salary">Salary Account</option>
+                          <option value="business">Business Account</option>
                         </select>
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:folder-outline" height={20} className="text-gray-400" />
@@ -329,7 +329,7 @@ const BankDetails = () => {
                           onChange={handleChange}
                           maxLength={11}
                           placeholder="SBIN0001234"
-                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 text-black/70 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
                         />
                         <div className="absolute left-4 top-1/2 -translate-y-1/2">
                           <Icon icon="solar:buildings-outline" height={20} className="text-gray-400" />
