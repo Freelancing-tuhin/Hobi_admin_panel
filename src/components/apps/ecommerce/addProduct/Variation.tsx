@@ -3,9 +3,19 @@ import { Icon } from '@iconify/react';
 import CardBox from 'src/components/shared/CardBox';
 import { useState } from 'react';
 
-// Custom Calendar Component
-const CustomCalendar = ({ selectedDate, onDateSelect }: { selectedDate: string; onDateSelect: (date: string) => void }) => {
-  const [currentMonth, setCurrentMonth] = useState(selectedDate ? new Date(selectedDate) : new Date());
+// Custom Calendar Component with Multi-Select Support
+const CustomCalendar = ({
+  selectedDates,
+  onDateSelect,
+  multiSelect = false
+}: {
+  selectedDates: string[];
+  onDateSelect: (dates: string[]) => void;
+  multiSelect?: boolean;
+}) => {
+  const [currentMonth, setCurrentMonth] = useState(
+    selectedDates.length > 0 ? new Date(selectedDates[0]) : new Date()
+  );
 
   const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
@@ -24,13 +34,24 @@ const CustomCalendar = ({ selectedDate, onDateSelect }: { selectedDate: string; 
   const handleDateClick = (day: number) => {
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
     const formattedDate = date.toISOString().split('T')[0];
-    onDateSelect(formattedDate);
+
+    if (multiSelect) {
+      // Toggle date selection for recurring activities
+      if (selectedDates.includes(formattedDate)) {
+        onDateSelect(selectedDates.filter(d => d !== formattedDate));
+      } else {
+        onDateSelect([...selectedDates, formattedDate].sort());
+      }
+    } else {
+      // Single selection for single activities
+      onDateSelect([formattedDate]);
+    }
   };
 
   const isSelected = (day: number) => {
-    if (!selectedDate) return false;
     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    return date.toISOString().split('T')[0] === selectedDate;
+    const formattedDate = date.toISOString().split('T')[0];
+    return selectedDates.includes(formattedDate);
   };
 
   const isToday = (day: number) => {
@@ -42,22 +63,33 @@ const CustomCalendar = ({ selectedDate, onDateSelect }: { selectedDate: string; 
     );
   };
 
+  const isPast = (day: number) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    return date < today;
+  };
+
   const days = [];
   for (let i = 0; i < firstDayOfMonth; i++) {
     days.push(<div key={`empty-${i}`} className="h-10" />);
   }
   for (let day = 1; day <= daysInMonth; day++) {
+    const past = isPast(day);
     days.push(
       <button
         key={day}
         type="button"
-        onClick={() => handleDateClick(day)}
+        onClick={() => !past && handleDateClick(day)}
+        disabled={past}
         className={`h-10 w-10 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200
           ${isSelected(day)
             ? 'bg-primary text-white'
             : isToday(day)
               ? 'bg-primary/10 text-primary'
-              : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
+              : past
+                ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
+                : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
           }`}
       >
         {day}
@@ -67,6 +99,16 @@ const CustomCalendar = ({ selectedDate, onDateSelect }: { selectedDate: string; 
 
   return (
     <div className="p-4">
+      {/* Multi-select hint */}
+      {multiSelect && (
+        <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-xl">
+          <div className="flex items-center gap-2 text-sm text-primary">
+            <Icon icon="tabler:info-circle" className="w-4 h-4" />
+            <span>Tap on multiple dates to select them</span>
+          </div>
+        </div>
+      )}
+
       {/* Month Navigation */}
       <div className="flex items-center justify-between mb-4">
         <button
@@ -99,6 +141,32 @@ const CustomCalendar = ({ selectedDate, onDateSelect }: { selectedDate: string; 
 
       {/* Days Grid */}
       <div className="grid grid-cols-7 gap-1">{days}</div>
+
+      {/* Selected Dates Display for Multi-Select */}
+      {multiSelect && selectedDates.length > 0 && (
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Selected Dates ({selectedDates.length})
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {selectedDates.map((date) => (
+              <span
+                key={date}
+                className="inline-flex items-center gap-1 px-2 py-1 bg-primary/10 text-primary rounded-lg text-xs font-medium"
+              >
+                {new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                <button
+                  type="button"
+                  onClick={() => onDateSelect(selectedDates.filter(d => d !== date))}
+                  className="hover:text-red-500 transition-colors"
+                >
+                  <Icon icon="tabler:x" className="w-3 h-3" />
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -197,11 +265,17 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
   const [drawerMode, setDrawerMode] = useState<'calendar' | 'time' | null>(null);
 
   const handleRadioChange = (event: { target: { value: string } }) => {
-    setEventData({ ...eventData, type: event.target.value });
+    const newType = event.target.value;
+    setEventData({
+      ...eventData,
+      type: newType,
+      // Reset dates when switching type
+      eventDates: []
+    });
   };
 
-  const handleDateSelect = (date: string) => {
-    setEventData({ ...eventData, startDate: date });
+  const handleDateSelect = (dates: string[]) => {
+    setEventData({ ...eventData, eventDates: dates });
   };
 
   const handleStartTimeChange = (time: string) => {
@@ -212,10 +286,13 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
     setEventData({ ...eventData, endTime: time });
   };
 
-  const formatDisplayDate = (dateStr: string) => {
-    if (!dateStr) return 'Select date';
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  const formatDisplayDate = (dates: string[]) => {
+    if (!dates || dates.length === 0) return 'Select date';
+    if (dates.length === 1) {
+      const date = new Date(dates[0]);
+      return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    return `${dates.length} dates selected`;
   };
 
   const formatDisplayTime = (timeStr: string) => {
@@ -228,6 +305,8 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
   };
 
   const closeDrawer = () => setDrawerMode(null);
+
+  const isRecurring = eventData.type === 'Recurring';
 
   return (
     <>
@@ -274,7 +353,7 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
               </div>
               <div className="flex-1">
                 <span className="font-semibold text-dark dark:text-white">Recurring Activity</span>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Repeats regularly</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Select multiple dates</p>
               </div>
               <Radio id="recurring-activity" name="type" value="Recurring" checked={eventData.type === 'Recurring'} onChange={handleRadioChange} className="sr-only" />
             </label>
@@ -296,7 +375,7 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
           {/* Date - Opens Calendar Drawer */}
           <div className="mb-5">
             <Label className="font-medium text-sm text-gray-700 dark:text-gray-300 mb-2 block">
-              Event Date <span className="text-error">*</span>
+              {isRecurring ? 'Event Dates' : 'Event Date'} <span className="text-error">*</span>
             </Label>
             <button
               type="button"
@@ -304,13 +383,39 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
               className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary transition-all bg-white dark:bg-gray-800"
             >
               <div className="flex items-center gap-3">
-                <Icon icon="tabler:calendar" className="w-5 h-5 text-primary" />
-                <span className={eventData.startDate ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-400'}>
-                  {formatDisplayDate(eventData.startDate)}
+                <Icon icon={isRecurring ? "tabler:calendar-plus" : "tabler:calendar"} className="w-5 h-5 text-primary" />
+                <span className={eventData.eventDates?.length > 0 ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-400'}>
+                  {formatDisplayDate(eventData.eventDates || [])}
                 </span>
               </div>
-              <Icon icon="tabler:chevron-right" className="w-5 h-5 text-gray-400" />
+              <div className="flex items-center gap-2">
+                {isRecurring && eventData.eventDates?.length > 0 && (
+                  <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+                    {eventData.eventDates.length}
+                  </span>
+                )}
+                <Icon icon="tabler:chevron-right" className="w-5 h-5 text-gray-400" />
+              </div>
             </button>
+
+            {/* Show selected dates chips for recurring */}
+            {isRecurring && eventData.eventDates?.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {eventData.eventDates.slice(0, 3).map((date: string) => (
+                  <span
+                    key={date}
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-primary/10 text-primary rounded-lg text-xs font-medium"
+                  >
+                    {new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  </span>
+                ))}
+                {eventData.eventDates.length > 3 && (
+                  <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg text-xs font-medium">
+                    +{eventData.eventDates.length - 3} more
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Times - Opens Time Drawer */}
@@ -363,10 +468,14 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-white">
-                    {drawerMode === 'calendar' ? 'Select Date' : 'Set Time'}
+                    {drawerMode === 'calendar'
+                      ? isRecurring ? 'Select Dates' : 'Select Date'
+                      : 'Set Time'}
                   </h3>
                   <p className="text-xs text-gray-500">
-                    {drawerMode === 'calendar' ? 'Choose event date' : 'Set start and end time'}
+                    {drawerMode === 'calendar'
+                      ? isRecurring ? 'Tap to select multiple dates' : 'Choose event date'
+                      : 'Set start and end time'}
                   </p>
                 </div>
               </div>
@@ -377,7 +486,11 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
 
             {/* Content */}
             {drawerMode === 'calendar' ? (
-              <CustomCalendar selectedDate={eventData.startDate} onDateSelect={handleDateSelect} />
+              <CustomCalendar
+                selectedDates={eventData.eventDates || []}
+                onDateSelect={handleDateSelect}
+                multiSelect={isRecurring}
+              />
             ) : (
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 <TimePicker label="Start Time" value={eventData.startTime} onChange={handleStartTimeChange} icon="tabler:clock" />

@@ -41,7 +41,7 @@ const AddProduct = () => {
     title: '',
     category: '',
     type: '',
-    startDate: '',
+    eventDates: [] as string[],
     startTime: '',
     endTime: '',
     location: {
@@ -92,8 +92,8 @@ const AddProduct = () => {
           setStepErrors({ ...stepErrors, 2: 'Please select activity type' });
           return false;
         }
-        if (!eventData.startDate) {
-          setStepErrors({ ...stepErrors, 2: 'Start date is required' });
+        if (!eventData.eventDates || eventData.eventDates.length === 0) {
+          setStepErrors({ ...stepErrors, 2: 'Please select at least one date' });
           return false;
         }
         if (!eventData.startTime) {
@@ -166,6 +166,7 @@ const AddProduct = () => {
     setIsLoading(true);
     const eventPayload: CreateEventPayload = {
       ...eventData,
+      eventDates: eventData.eventDates,
       bannerImage: bannerFile!,
     };
 

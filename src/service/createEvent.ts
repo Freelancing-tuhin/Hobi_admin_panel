@@ -5,7 +5,7 @@ export interface CreateEventPayload {
   title: string;
   category: string;
   type: string;
-  startDate: string;
+  eventDates: string[];  // Array of dates
   startTime: string;
   endTime: string;
   location: {
@@ -27,7 +27,10 @@ export const createEvent = async (eventData: CreateEventPayload): Promise<void> 
     formData.append('title', eventData.title);
     formData.append('category', eventData.category);
     formData.append('type', eventData.type);
-    formData.append('startDate', eventData.startDate);
+    
+    // Send dates as JSON array
+    formData.append('eventDates', JSON.stringify(eventData.eventDates));
+    
     formData.append('startTime', eventData.startTime);
     formData.append('endTime', eventData.endTime);
 
@@ -56,3 +59,4 @@ export const createEvent = async (eventData: CreateEventPayload): Promise<void> 
     console.error('Error creating event:', error);
   }
 };
+
