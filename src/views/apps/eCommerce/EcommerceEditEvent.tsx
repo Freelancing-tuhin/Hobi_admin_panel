@@ -2,7 +2,7 @@ import GeneralDetail from 'src/components/apps/ecommerce/addProduct/GeneralDetai
 import Pricing from 'src/components/apps/ecommerce/addProduct/Pricing';
 import ProductData from 'src/components/apps/ecommerce/addProduct/ProductData';
 import Status from 'src/components/apps/ecommerce/addProduct/Status';
-import Variation from 'src/components/apps/ecommerce/addProduct/Variation';
+import EditEventSchedule from 'src/components/apps/ecommerce/editProduct/EditEventSchedule';
 import Thumbnail from 'src/components/apps/ecommerce/editProduct/Thumbnail';
 import BreadcrumbComp from 'src/layouts/full/shared/breadcrumb/BreadcrumbComp';
 import { Button } from 'flowbite-react';
@@ -143,10 +143,6 @@ const EditEvent = () => {
                 }
                 return true;
             case 2:
-                if (!eventData.type) {
-                    setStepErrors({ ...stepErrors, 2: 'Please select activity type' });
-                    return false;
-                }
                 if (!eventData.startDate) {
                     setStepErrors({ ...stepErrors, 2: 'Start date is required' });
                     return false;
@@ -266,7 +262,7 @@ const EditEvent = () => {
                 );
             case 2:
                 return (
-                    <Variation eventData={eventData} setEventData={setEventData} />
+                    <EditEventSchedule eventData={eventData} setEventData={setEventData} />
                 );
             case 3:
                 return (
