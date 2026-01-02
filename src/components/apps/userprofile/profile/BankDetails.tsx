@@ -4,6 +4,7 @@ import { updateOrganizerProfile } from 'src/service/auth';
 import { AuthContext } from 'src/context/authContext/AuthContext';
 import { toast } from 'react-toastify';
 import Loader from 'src/components/shared/Loader';
+import { Icon } from '@iconify/react';
 
 interface BankDetailsType {
   PAN: string;
@@ -27,7 +28,7 @@ const BankDetails = () => {
   });
 
   const handleChange = (e: any) => {
-    setBankDetails({ ...bankDetails, [e.target.name]: e.target.value });
+    setBankDetails({ ...bankDetails, [e.target.name]: e.target.value.toUpperCase() });
   };
 
   const handleSubmit = async () => {
@@ -54,157 +55,398 @@ const BankDetails = () => {
     }
   };
 
+  // Check if fields are filled for verification status
+  const isPanVerified = user?.PAN && user.PAN.length === 10;
+  const isGstVerified = user?.GST && user.GST.length === 15;
+  const isBankVerified = user?.bank_account && user?.IFSC_code;
+
+  const steps = [
+    { number: 1, title: 'Tax Information', subtitle: 'PAN & GST Details' },
+    { number: 2, title: 'Bank Account', subtitle: 'Account & IFSC' },
+  ];
+
   return (
-    <div className="flex justify-center items-center ">
-      <CardBox className="w-full max-w-4xl min-h-[20rem]">
-        <div className="p-">
-          <h2 className="card-title">Bank Details</h2>
-          <p className="card-subtitle">
-            Securely update your bank details to ensure smooth transactions. Please provide accurate
-            PAN, GST, and account information to avoid payment delays.
-          </p>
+    <div className="w-full">
+      {/* Security Header Banner */}
+
+
+      {/* Verification Status Cards */}
+
+
+      {/* Main Form Card */}
+      <CardBox className="w-full">
+        <div className="p-2">
+          {/* Header */}
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                <Icon icon="solar:safe-square-bold-duotone" height={28} className="text-[#b03052]" />
+                Financial Information
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Complete your tax and banking details for seamless transactions
+              </p>
+            </div>
+          </div>
+
           {loading ? (
-            <div className="h-56 flex items-center justify-center">
+            <div className="h-64 flex items-center justify-center">
               <Loader />
             </div>
           ) : (
             <>
-              {/* Stepper */}
-              <div className="flex w-full justify-start gap-5 my-4">
-                <span
-                  className={`w-1/2 text-center py-2 w-32 rounded-2xl ${
-                    step === 1
-                      ? 'text-white bg-[#b03052] font-semibold'
-                      : 'text-gray-500 bg-gray-200 '
-                  }`}
-                >
-                  Step 1
-                </span>
-                <span
-                  className={`w-1/2 text-center py-2 w-32 rounded-2xl ${
-                    step === 2
-                      ? 'text-white bg-[#b03052] font-semibold'
-                      : 'text-gray-500 bg-gray-200'
-                  }`}
-                >
-                  Step 2
-                </span>
+              {/* Enhanced Step Progress */}
+              <div className="relative mb-8">
+                <div className="flex items-center justify-between">
+                  {steps.map((s, index) => (
+                    <div key={s.number} className="flex-1 relative">
+                      <div className="flex items-center">
+                        <div
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg transition-all duration-300 ${step === s.number
+                            ? 'bg-gradient-to-br from-[#b03052] to-[#8a2542] text-white shadow-lg shadow-[#b03052]/30'
+                            : step > s.number
+                              ? 'bg-emerald-500 text-white'
+                              : 'bg-gray-100 dark:bg-gray-700 text-gray-400'
+                            }`}
+                        >
+                          {step > s.number ? (
+                            <Icon icon="solar:check-circle-bold" height={24} />
+                          ) : (
+                            s.number
+                          )}
+                        </div>
+                        <div className="ml-3">
+                          <p className={`font-semibold text-sm ${step === s.number ? 'text-[#b03052]' : 'text-gray-600 dark:text-gray-400'
+                            }`}>
+                            {s.title}
+                          </p>
+                          <p className="text-xs text-gray-400">{s.subtitle}</p>
+                        </div>
+                      </div>
+                      {/* Connector Line */}
+                      {index < steps.length - 1 && (
+                        <div className="absolute top-6 left-14 right-0 h-0.5 -z-10">
+                          <div className={`h-full transition-all duration-500 ${step > s.number ? 'bg-emerald-500' : 'bg-gray-200 dark:bg-gray-700'
+                            }`} />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
+              {/* Step 1: Tax Information */}
               {step === 1 && (
-                <div className="flex flex-col md:flex-row gap-6">
-                  <div className="space-y-4 w-full md:w-1/2">
-                    <div>
-                      <label className="block text-sm font-medium card-subtitle">PAN</label>
-                      <input
-                        type="text"
-                        name="PAN"
-                        value={bankDetails.PAN}
-                        onChange={handleChange}
-                        className="mt-1 block w-full p-2 border border-gray-300 dark:bg-gray-700 dark:border-none rounded-md shadow-sm "
-                      />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="space-y-5">
+                    {/* PAN Input */}
+                    <div className="group">
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <Icon icon="solar:card-bold" height={18} className="text-[#b03052]" />
+                        PAN Number
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          name="PAN"
+                          value={bankDetails.PAN}
+                          onChange={handleChange}
+                          maxLength={10}
+                          placeholder="ABCDE1234F"
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                        />
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                          <Icon icon="solar:card-outline" height={20} className="text-gray-400" />
+                        </div>
+                        {bankDetails.PAN.length === 10 && (
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                            <Icon icon="solar:check-circle-bold" height={20} className="text-emerald-500" />
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+                        <Icon icon="solar:info-circle-outline" height={14} />
+                        10-character alphanumeric PAN number
+                      </p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium card-subtitle">GST</label>
-                      <input
-                        type="text"
-                        name="GST"
-                        value={bankDetails.GST}
-                        onChange={handleChange}
-                        className="mt-1 block w-full p-2 border border-gray-300 dark:bg-gray-700 dark:border-none rounded-md shadow-sm"
-                      />
+
+                    {/* GST Input */}
+                    <div className="group">
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <Icon icon="solar:document-bold" height={18} className="text-[#b03052]" />
+                        GSTIN Number
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          name="GST"
+                          value={bankDetails.GST}
+                          onChange={handleChange}
+                          maxLength={15}
+                          placeholder="22AAAAA0000A1Z5"
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                        />
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                          <Icon icon="solar:document-outline" height={20} className="text-gray-400" />
+                        </div>
+                        {bankDetails.GST.length === 15 && (
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                            <Icon icon="solar:check-circle-bold" height={20} className="text-emerald-500" />
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+                        <Icon icon="solar:info-circle-outline" height={14} />
+                        15-character GST Identification Number
+                      </p>
                     </div>
+
+                    {/* Next Button */}
                     <button
                       onClick={() => setStep(2)}
-                      className="w-full bg-[#b03052] text-white py-2 rounded-md hover:bg-blue-700 transition"
+                      disabled={!bankDetails.PAN}
+                      className="w-full mt-4 bg-gradient-to-r from-[#b03052] to-[#8a2542] text-white py-3.5 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#b03052]/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Next
+                      Continue to Bank Details
+                      <Icon icon="solar:arrow-right-linear" height={20} />
                     </button>
                   </div>
-                  <div className="w-full md:w-1/2 flex justify-center">
-                    <img
-                      src="https://img.freepik.com/free-vector/tax-concept-illustration_114360-5924.jpg?t=st=1740808259~exp=1740811859~hmac=c65f66fc9c4669b4277f60c51f190cb79cb4e618765c09918fefed7ff6148c5f&w=900"
-                      alt="Banker illustration"
-                      className="h-48 w-64 object-cover rounded-md"
-                    />
+
+                  {/* Info Panel */}
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-6 flex flex-col justify-center">
+                    <div className="text-center mb-6">
+                      <div className="w-20 h-20 bg-white dark:bg-gray-700 rounded-2xl shadow-lg mx-auto flex items-center justify-center mb-4">
+                        <Icon icon="solar:shield-user-bold-duotone" height={48} className="text-[#b03052]" />
+                      </div>
+                      <h3 className="font-bold text-lg text-gray-800 dark:text-white">Why We Need This?</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-900/50 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Icon icon="solar:verified-check-bold" height={16} className="text-emerald-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-sm text-gray-800 dark:text-gray-200">Tax Compliance</p>
+                          <p className="text-xs text-gray-500">Required for TDS deduction and filing</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Icon icon="solar:bill-list-bold" height={16} className="text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-sm text-gray-800 dark:text-gray-200">GST Invoicing</p>
+                          <p className="text-xs text-gray-500">Generate GST-compliant invoices</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Icon icon="solar:lock-bold" height={16} className="text-purple-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-sm text-gray-800 dark:text-gray-200">Secure Storage</p>
+                          <p className="text-xs text-gray-500">End-to-end encrypted data</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
 
+              {/* Step 2: Bank Account */}
               {step === 2 && (
-                <div className="flex flex-col md:flex-row gap-6">
-                  <div className="space-y-4 md:w-1/2">
-                    <div>
-                      <label className="block text-sm font-medium card-subtitle">
-                        Bank Account
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="space-y-5">
+                    {/* Bank Account */}
+                    <div className="group">
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <Icon icon="solar:wallet-bold" height={18} className="text-[#b03052]" />
+                        Bank Account Number
+                        <span className="text-red-500">*</span>
                       </label>
-                      <input
-                        type="text"
-                        name="bank_account"
-                        value={bankDetails.bank_account}
-                        onChange={handleChange}
-                        className="mt-1 block w-full p-2 border border-gray-300 dark:bg-gray-700 dark:border-none rounded-md shadow-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium card-subtitle">
-                        Account Type
-                      </label>
-                      <select
-                        name="bank_account_type"
-                        value={bankDetails.bank_account_type}
-                        onChange={handleChange}
-                        className="mt-1 block w-full p-2 border border-gray-300 dark:bg-gray-700 dark:border-none rounded-md shadow-sm"
-                      >
-                        <option value="">Select Account Type</option>
-                        <option value="savings">Savings Account</option>
-                        <option value="current">Current Account</option>
-                        <option value="student">Student Account</option>
-                        <option value="salary">Salary Account</option>
-                        <option value="business">Business Account</option>
-                        <option value="joint">Joint Account</option>
-                        <option value="fixed">Fixed Deposit Account</option>
-                      </select>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          name="bank_account"
+                          value={bankDetails.bank_account}
+                          onChange={(e) => setBankDetails({ ...bankDetails, bank_account: e.target.value })}
+                          placeholder="Enter account number"
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider"
+                        />
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                          <Icon icon="solar:wallet-outline" height={20} className="text-gray-400" />
+                        </div>
+                        {bankDetails.bank_account.length >= 9 && (
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                            <Icon icon="solar:check-circle-bold" height={20} className="text-emerald-500" />
+                          </div>
+                        )}
+                      </div>
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium card-subtitle">IFSC Code</label>
-                      <input
-                        type="text"
-                        name="IFSC_code"
-                        value={bankDetails.IFSC_code}
-                        onChange={handleChange}
-                        className="mt-1 block w-full p-2 border border-gray-300 dark:bg-gray-700 dark:border-none rounded-md shadow-sm"
-                      />
+                    {/* Account Type */}
+                    <div className="group">
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <Icon icon="solar:folder-bold" height={18} className="text-[#b03052]" />
+                        Account Type
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="bank_account_type"
+                          value={bankDetails.bank_account_type}
+                          onChange={(e) => setBankDetails({ ...bankDetails, bank_account_type: e.target.value })}
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all appearance-none cursor-pointer"
+                        >
+                          <option value="">Select Account Type</option>
+                          <option value="savings">💰 Savings Account</option>
+                          <option value="current">🏢 Current Account</option>
+                          <option value="salary">💼 Salary Account</option>
+                          <option value="business">📊 Business Account</option>
+                        </select>
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                          <Icon icon="solar:folder-outline" height={20} className="text-gray-400" />
+                        </div>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                          <Icon icon="solar:alt-arrow-down-linear" height={20} className="text-gray-400" />
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex justify-between mt-4">
+
+                    {/* IFSC Code */}
+                    <div className="group">
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                        <Icon icon="solar:buildings-bold" height={18} className="text-[#b03052]" />
+                        IFSC Code
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          name="IFSC_code"
+                          value={bankDetails.IFSC_code}
+                          onChange={handleChange}
+                          maxLength={11}
+                          placeholder="SBIN0001234"
+                          className="w-full px-4 py-3 pl-12 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-800 rounded-xl focus:border-[#b03052] focus:ring-2 focus:ring-[#b03052]/20 transition-all font-mono text-lg tracking-wider uppercase"
+                        />
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                          <Icon icon="solar:buildings-outline" height={20} className="text-gray-400" />
+                        </div>
+                        {bankDetails.IFSC_code.length === 11 && (
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                            <Icon icon="solar:check-circle-bold" height={20} className="text-emerald-500" />
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+                        <Icon icon="solar:info-circle-outline" height={14} />
+                        11-character bank branch code
+                      </p>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 mt-6">
                       <button
                         onClick={() => setStep(1)}
-                        className="w-1/3 bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 transition"
+                        className="flex-1 py-3.5 border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
                       >
+                        <Icon icon="solar:arrow-left-linear" height={20} />
                         Back
                       </button>
                       <button
                         onClick={handleSubmit}
-                        className="w-2/4 bg-[#b03052] text-white py-2 rounded-md hover:bg-blue-700 transition"
+                        disabled={!bankDetails.bank_account || !bankDetails.IFSC_code || !bankDetails.bank_account_type}
+                        className="flex-[2] bg-gradient-to-r from-emerald-500 to-emerald-600 text-white py-3.5 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Save
+                        <Icon icon="solar:shield-check-bold" height={20} />
+                        Save & Verify
                       </button>
                     </div>
                   </div>
-                  <div className="w-full md:w-1/2 flex justify-center">
-                    <img
-                      src="https://img.freepik.com/free-vector/online-banking-man-with-coins-using-laptop-cartoon-character-bank-account-income-savings-cashless-payment-freelancer-with-computer-making-money_335657-2315.jpg?t=st=1740808476~exp=1740812076~hmac=18f4dd6aaa0444f221e298ed811edf7c96651b0d751fd7de14ab1f6303fc97a1&w=900"
-                      alt="Banker illustration"
-                      className="h-48 w-64 object-cover rounded-md"
-                    />
+
+                  {/* Bank Card Preview */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-full max-w-sm">
+                      {/* Virtual Bank Card */}
+                      <div className="relative bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-2xl p-6 shadow-2xl overflow-hidden">
+                        {/* Card Pattern */}
+                        <div className="absolute inset-0 opacity-10">
+                          <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
+                          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
+                        </div>
+
+                        {/* Card Content */}
+                        <div className="relative z-10">
+                          <div className="flex items-center justify-between mb-8">
+                            <Icon icon="solar:wallet-bold" height={32} className="text-[#b03052]" />
+                            <div className="flex gap-1">
+                              <div className="w-8 h-8 bg-red-500 rounded-full opacity-80" />
+                              <div className="w-8 h-8 bg-yellow-500 rounded-full opacity-80 -ml-3" />
+                            </div>
+                          </div>
+
+                          <div className="mb-6">
+                            <p className="text-gray-400 text-xs mb-1">Account Number</p>
+                            <p className="text-white font-mono text-xl tracking-widest">
+                              {bankDetails.bank_account
+                                ? `**** **** ${bankDetails.bank_account.slice(-4) || '****'}`
+                                : '**** **** **** ****'
+                              }
+                            </p>
+                          </div>
+
+                          <div className="flex justify-between items-end">
+                            <div>
+                              <p className="text-gray-400 text-xs mb-1">IFSC</p>
+                              <p className="text-white font-mono tracking-wider text-sm">
+                                {bankDetails.IFSC_code || 'XXXXXXX0000'}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-gray-400 text-xs mb-1">Type</p>
+                              <p className="text-white text-sm capitalize">
+                                {bankDetails.bank_account_type || 'Account'}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Security Note */}
+                      <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
+                        <Icon icon="solar:lock-bold" height={14} />
+                        <span>Your data is secured with bank-level encryption</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
             </>
           )}
+
         </div>
       </CardBox>
+
+      <div className="bg-gradient-to-r  mt-8 from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="flex-shrink-0 w-10 h-10 bg-emerald-100 dark:bg-emerald-900/50 rounded-full flex items-center justify-center">
+            <Icon icon="solar:shield-check-bold" className="text-emerald-600 dark:text-emerald-400" height={22} />
+          </div>
+          <div className="flex-1">
+            <h4 className="font-semibold text-emerald-800 dark:text-emerald-300 text-sm">Bank-Grade Security</h4>
+            <p className="text-xs text-emerald-600 dark:text-emerald-400">Your financial data is encrypted and securely stored</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Icon icon="logos:visa" height={20} />
+            <Icon icon="logos:mastercard" height={20} />
+            <div className="w-px h-6 bg-emerald-300 dark:bg-emerald-700" />
+            <Icon icon="solar:lock-bold" className="text-emerald-600 dark:text-emerald-400" height={16} />
+            <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400">256-bit SSL</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

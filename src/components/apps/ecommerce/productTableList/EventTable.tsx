@@ -3,19 +3,19 @@ import { format } from 'date-fns';
 import { Table, Pagination, Button } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import { deleteEvent } from 'src/service/deleteEvent';
+// import { deleteEvent } from 'src/service/deleteEvent';
 
 const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handleDeleteEvent = async (eventId: any) => {
-    try {
-      await deleteEvent(eventId);
-      getEvents(currentPage);
-    } catch (error) {
-      console.error('Failed to delete event:', error);
-    }
-  };
+  // const handleDeleteEvent = async (eventId: any) => {
+  //   try {
+  //     await deleteEvent(eventId);
+  //     getEvents(currentPage);
+  //   } catch (error) {
+  //     console.error('Failed to delete event:', error);
+  //   }
+  // };
 
   const formatTime = (timeString: string) => {
     if (!timeString) return ''; // Handle empty value
