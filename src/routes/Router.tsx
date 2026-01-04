@@ -48,6 +48,7 @@ const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
 const Tickets = Loadable(lazy(() => import('../views/apps/tickets/Tickets')));
 const CreateTickets = Loadable(lazy(() => import('../views/apps/tickets/CreateTickets')));
 const Kanban = Loadable(lazy(() => import('../views/apps/kanban/Kanban')));
+const Wallet = Loadable(lazy(() => import('../views/apps/wallet/Wallet')));
 
 // theme pages
 const RollbaseCASL = Loadable(lazy(() => import('../views/pages/rollbaseCASL/RollbaseCASL')));
@@ -275,6 +276,15 @@ const Router = [
         element: (
           <ProtectedRoute>
             <InvoiceList />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/wallet',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <Wallet />
           </ProtectedRoute>
         ),
       },
