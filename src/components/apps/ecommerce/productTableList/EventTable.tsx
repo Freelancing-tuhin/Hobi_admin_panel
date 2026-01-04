@@ -1,24 +1,14 @@
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from '@iconify/react';
 import { format } from 'date-fns';
-import { Table, Pagination, Button } from 'flowbite-react';
+import { Table, Pagination, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-// import { deleteEvent } from 'src/service/deleteEvent';
 
-const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
+const EventTable = ({ events, totalPages, getEvents, searchText, loading }: any) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  // const handleDeleteEvent = async (eventId: any) => {
-  //   try {
-  //     await deleteEvent(eventId);
-  //     getEvents(currentPage);
-  //   } catch (error) {
-  //     console.error('Failed to delete event:', error);
-  //   }
-  // };
-
   const formatTime = (timeString: string) => {
-    if (!timeString) return ''; // Handle empty value
+    if (!timeString) return '';
     const [hours, minutes] = timeString.split(':').map(Number);
     return new Date(0, 0, 0, hours, minutes).toLocaleTimeString('en-US', {
       hour: '2-digit',
@@ -31,111 +21,181 @@ const EventTable = ({ events, totalPages, getEvents, searchText }: any) => {
     getEvents(currentPage);
   }, [currentPage, searchText]);
 
+  // Render star rating
+  const renderRating = (rating: number) => {
+    return (
+      <div className="flex items-center gap-1">
+        {[...Array(5)].map((_, index) => (
+          <Icon
+            key={index}
+            icon="solar:star-bold"
+            height={16}
+            className={index < rating ? 'text-amber-400' : 'text-gray-300 dark:text-gray-600'}
+          />
+        ))}
+        <span className="ml-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+          {rating > 0 ? rating.toFixed(1) : '0'}/5
+        </span>
+      </div>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (!events || events.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
+          <Icon icon="solar:calendar-mark-bold-duotone" className="text-5xl text-gray-300 dark:text-gray-600" />
+        </div>
+        <p className="text-gray-600 dark:text-gray-400 font-semibold mb-1">No events yet</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+          Create your first event to get started
+        </p>
+        <Link
+          to="/Event/add"
+          className="px-6 py-2.5 bg-gradient-to-r from-[#b03052] to-[#8a2542] text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-[#b03052]/30 transition-all flex items-center gap-2"
+        >
+          <Icon icon="solar:add-circle-bold" height={20} />
+          Create Event
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="border rounded-md border-ld overflow-x-auto">
+      <div className="border rounded-xl border-gray-200 dark:border-gray-700 overflow-x-auto">
         <Table hoverable>
-          <Table.Head>
-            <Table.HeadCell>Events</Table.HeadCell>
-            <Table.HeadCell>Event Date</Table.HeadCell>
-            <Table.HeadCell>Event Time</Table.HeadCell>
-            <Table.HeadCell>Ratings</Table.HeadCell>
-            <Table.HeadCell>Action</Table.HeadCell>
+          <Table.Head className="bg-gray-50 dark:bg-gray-800">
+            <Table.HeadCell className="font-bold text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-2">
+                <Icon icon="solar:calendar-mark-bold" height={16} />
+                Event
+              </div>
+            </Table.HeadCell>
+            <Table.HeadCell className="font-bold text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-2">
+                <Icon icon="solar:calendar-bold" height={16} />
+                Date
+              </div>
+            </Table.HeadCell>
+            <Table.HeadCell className="font-bold text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-2">
+                <Icon icon="solar:clock-circle-bold" height={16} />
+                Time
+              </div>
+            </Table.HeadCell>
+            <Table.HeadCell className="font-bold text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-2">
+                <Icon icon="solar:star-bold" height={16} />
+                Ratings
+              </div>
+            </Table.HeadCell>
+            <Table.HeadCell className="font-bold text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-2">
+                <Icon icon="solar:settings-bold" height={16} />
+                Actions
+              </div>
+            </Table.HeadCell>
           </Table.Head>
 
-          <Table.Body className="divide-y divide-border dark:divide-darkborder">
+          <Table.Body className="divide-y divide-gray-100 dark:divide-gray-700">
             {events.map((item: any) => (
-              <Table.Row key={item?._id}>
+              <Table.Row
+                key={item?._id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+              >
                 <Table.Cell>
                   <div className="flex gap-3 items-center">
-                    <img src={item?.banner_Image} alt="Event Banner" className="h-14 w-14 rounded" />
+                    <img
+                      src={item?.banner_Image}
+                      alt="Event Banner"
+                      className="h-14 w-14 rounded-xl object-cover shadow-sm"
+                    />
                     <div>
-                      <h6 className="text-base overflow-hidden whitespace-nowrap text-ellipsis max-w-[20ch]">
+                      <h6 className="font-semibold text-gray-800 dark:text-white text-sm max-w-[200px] truncate">
                         {item?.title}
                       </h6>
-                      <p className="text-sm text-darklink dark:text-bodytext">{item?.category?.service_name}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-0.5">
+                        <Icon icon="solar:tag-bold" height={12} />
+                        {item?.category?.service_name || 'Uncategorized'}
+                      </p>
                     </div>
                   </div>
                 </Table.Cell>
-                <Table.Cell>{format(new Date(item.startDate), 'E, MMM d yyyy')}</Table.Cell>
                 <Table.Cell>
-                  {formatTime(item?.startTime)} - {formatTime(item?.endTime)}
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex flex-col items-center justify-center">
+                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                        {format(new Date(item.startDate), 'd')}
+                      </span>
+                      <span className="text-[10px] text-blue-500 dark:text-blue-400 uppercase -mt-1">
+                        {format(new Date(item.startDate), 'MMM')}
+                      </span>
+                    </div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      {format(new Date(item.startDate), 'yyyy')}
+                    </span>
+                  </div>
                 </Table.Cell>
-
                 <Table.Cell>
-                  <h5 className="text-base flex items-center">
-                    {[...Array(5)].map((_, index) => (
-                      <svg
-                        key={index}
-                        className={`w-4 h-4 ms-1 ${index < item?.ratings
-                          ? 'text-yellow-300'
-                          : 'text-gray-300 dark:text-gray-500'
-                          }`}
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 22 20"
-                      >
-                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                      </svg>
-                    ))}
-                    <p className="hidden xl:inline ms-1 ml-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                      {item?.ratings > 0 ? item?.ratings : 0}
-                    </p>
-                    <p className="hidden xl:inline ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                      out of
-                    </p>
-                    <p className=" hidden xl:inline ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                      5
-                    </p>
-                  </h5>
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                      <Icon icon="solar:clock-circle-bold" height={16} className="text-purple-600 dark:text-purple-400" />
+                    </div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      {formatTime(item?.startTime)} - {formatTime(item?.endTime)}
+                    </span>
+                  </div>
                 </Table.Cell>
-
-                <Table.Cell className="flex gap-2 items-center">
-                  <Link to={`/Event/${item._id}`}>
-                    <Button
-                      color="blue"
-                      size="xs"
-                      className="bg-[#b03052]"
-                    >
-                      <Icon icon="solar:presentation-graph-bold" height="18" />
-                      Dashboard
-                    </Button>
-                  </Link>
-                  <Link to={`/Event/edit/${item._id}`}>
-                    <Button
-                      color="blue"
-                      size="xs"
-                      className="bg-gray-500"
-                    >
-                      <Icon icon="material-symbols:edit-document" height="18" />
-                      Edit
-                    </Button>
-                  </Link>
-                  {/* <Button
-                    color="blue"
-                    size="xs"
-                    className="bg-red-500"
-                    onClick={() => handleDeleteEvent(item._id)}
-                  >
-                    <Icon icon="hugeicons:delete-03" height="19" />
-                  </Button> */}
+                <Table.Cell>
+                  {renderRating(item?.ratings || 0)}
+                </Table.Cell>
+                <Table.Cell>
+                  <div className="flex gap-2 items-center">
+                    <Link to={`/Event/${item._id}`}>
+                      <button className="px-4 py-3 bg-gradient-to-r from-[#b03052] to-[#8a2542] text-white rounded-lg font-medium text-xs hover:shadow-lg hover:shadow-[#b03052]/30 transition-all flex items-center gap-1.5">
+                        <Icon icon="solar:chart-2-bold" height={16} />
+                        Dashboard
+                      </button>
+                    </Link>
+                    <Link to={`/Event/edit/${item._id}`}>
+                      <button className="px-4 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center gap-1.5">
+                        <Icon icon="solar:pen-bold" height={16} />
+                        Edit
+                      </button>
+                    </Link>
+                  </div>
                 </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table>
       </div>
-      <div className="flex justify-center mb-4 mt-2 ">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
-      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Page <span className="font-semibold">{currentPage}</span> of <span className="font-semibold">{totalPages}</span>
+          </p>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => setCurrentPage(page)}
+            showIcons
+          />
+        </div>
+      )}
     </>
   );
 };
 
 export default EventTable;
-

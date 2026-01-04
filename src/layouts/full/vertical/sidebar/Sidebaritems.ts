@@ -49,6 +49,12 @@ const SidebarContent: MenuItem[] = [
         id: uniqueId(),
         url: '/Booking/list',
       },
+        {
+        name: 'My Wallet',
+        icon: 'solar:wallet-line-duotone',
+        id: uniqueId(),
+        url: '/wallet',
+      },
       // {
       //   name: 'Dashboard2',
       //   icon: 'solar:chart-line-duotone',
@@ -62,12 +68,7 @@ const SidebarContent: MenuItem[] = [
         id: uniqueId(),
         url: '/reports',
       },
-      {
-        name: 'Wallet',
-        icon: 'solar:wallet-line-duotone',
-        id: uniqueId(),
-        url: '/wallet',
-      },
+    
       // {
       //   name: 'Front Pages',
       //   id: uniqueId(),
