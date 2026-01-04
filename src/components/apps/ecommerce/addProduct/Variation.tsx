@@ -314,8 +314,8 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
         {/* Left Card - Activity Type */}
         <CardBox>
           <div className="flex items-center gap-3 -mt-5 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Icon icon="tabler:category" className="w-5 h-5 text-primary" />
+            <div className="w-12 h-12 rounded-2xl bg-[#f8e8ec] flex items-center justify-center">
+              <Icon icon="tabler:category" className="w-6 h-6 text-primary" />
             </div>
             <div>
               <h5 className="text-lg font-semibold text-dark dark:text-white">Activity Type</h5>
@@ -363,8 +363,8 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
         {/* Right Card - Date & Time */}
         <CardBox>
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Icon icon="tabler:calendar-event" className="w-5 h-5 text-primary" />
+            <div className="w-12 h-12 rounded-2xl bg-[#f8e8ec] flex items-center justify-center">
+              <Icon icon="tabler:calendar-event" className="w-6 h-6 text-primary" />
             </div>
             <div>
               <h5 className="text-lg font-semibold text-dark dark:text-white">Event Schedule</h5>
@@ -463,8 +463,8 @@ const ActivityDetails = ({ eventData, setEventData }: any) => {
             {/* Header */}
             <div className="sticky top-0 bg-white dark:bg-darkgray border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Icon icon={drawerMode === 'calendar' ? 'tabler:calendar' : 'tabler:clock'} className="w-5 h-5 text-primary" />
+                <div className="w-12 h-12 rounded-2xl bg-[#f8e8ec] flex items-center justify-center">
+                  <Icon icon={drawerMode === 'calendar' ? 'tabler:calendar' : 'tabler:clock'} className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-white">

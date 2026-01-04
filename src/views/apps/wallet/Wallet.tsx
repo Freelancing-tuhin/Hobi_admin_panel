@@ -145,14 +145,15 @@ const Wallet = () => {
 
     // Get status badge
     const getStatusBadge = (status: string) => {
+        const safeStatus = status || 'pending';
         const styles: Record<string, string> = {
             pending: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400',
             completed: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
             failed: 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400',
         };
         return (
-            <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${styles[status] || 'bg-gray-100 text-gray-600'}`}>
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+            <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${styles[safeStatus] || 'bg-gray-100 text-gray-600'}`}>
+                {safeStatus.charAt(0).toUpperCase() + safeStatus.slice(1)}
             </span>
         );
     };
@@ -201,7 +202,7 @@ const Wallet = () => {
         },
     ];
     return (
-        <div className="p-4 md:p-6">
+        <div className="p-4">
             <BreadcrumbComp title="Business Wallet" items={BCrumb} />
 
 

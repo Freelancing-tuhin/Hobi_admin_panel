@@ -31,8 +31,8 @@ const Pricing = ({ eventData, setEventData }: any) => {
       <CardBox>
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Icon icon="tabler:ticket" className="w-5 h-5 text-primary" />
+          <div className="w-12 h-12 rounded-2xl bg-[#f8e8ec] flex items-center justify-center">
+            <Icon icon="tabler:ticket" className="w-6 h-6 text-primary" />
           </div>
           <div>
             <h5 className="text-lg font-semibold text-dark dark:text-white">Pricing</h5>
@@ -120,7 +120,7 @@ const Pricing = ({ eventData, setEventData }: any) => {
           {/* Tickets Header */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-[#f8e8ec] flex items-center justify-center">
                 <Icon icon="tabler:list-details" className="w-5 h-5 text-primary" />
               </div>
               <div>
