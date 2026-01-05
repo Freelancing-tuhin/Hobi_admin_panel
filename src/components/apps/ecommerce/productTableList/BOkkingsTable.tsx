@@ -44,16 +44,16 @@ const BookingsTable = () => {
   };
 
   // Get booking status style
-  const getBookingStatusStyle = (status: string) => {
-    const styles: Record<string, { bg: string; text: string; icon: string }> = {
-      'Pending': { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-400', icon: 'solar:clock-circle-bold' },
-      'check-in': { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-400', icon: 'solar:login-3-bold' },
-      'in-progress': { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-400', icon: 'solar:play-circle-bold' },
-      'Completed': { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-400', icon: 'solar:check-circle-bold' },
-      'Canceled': { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-400', icon: 'solar:close-circle-bold' },
-    };
-    return styles[status] || styles['Pending'];
-  };
+  // const getBookingStatusStyle = (status: string) => {
+  //   const styles: Record<string, { bg: string; text: string; icon: string }> = {
+  //     'Pending': { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-400', icon: 'solar:clock-circle-bold' },
+  //     'check-in': { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-400', icon: 'solar:login-3-bold' },
+  //     'in-progress': { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-400', icon: 'solar:play-circle-bold' },
+  //     'Completed': { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-400', icon: 'solar:check-circle-bold' },
+  //     'Canceled': { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-400', icon: 'solar:close-circle-bold' },
+  //   };
+  //   return styles[status] || styles['Pending'];
+  // };
 
   // Get payment status style
   const getPaymentStatusStyle = (status: string) => {

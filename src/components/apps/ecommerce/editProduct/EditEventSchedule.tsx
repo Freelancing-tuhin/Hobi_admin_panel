@@ -30,15 +30,20 @@ const CustomCalendar = ({
     };
 
     const handleDateClick = (day: number) => {
-        const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        const formattedDate = date.toISOString().split('T')[0];
+        const year = currentMonth.getFullYear();
+        const month = String(currentMonth.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(day).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${dayStr}`;
         onDateSelect(formattedDate);
     };
 
     const isSelected = (day: number) => {
         if (!selectedDate) return false;
-        const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-        return date.toISOString().split('T')[0] === selectedDate;
+        const year = currentMonth.getFullYear();
+        const month = String(currentMonth.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(day).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${dayStr}`;
+        return formattedDate === selectedDate;
     };
 
     const isToday = (day: number) => {

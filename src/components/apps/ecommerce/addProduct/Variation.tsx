@@ -32,8 +32,10 @@ const CustomCalendar = ({
   };
 
   const handleDateClick = (day: number) => {
-    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    const formattedDate = date.toISOString().split('T')[0];
+    const year = currentMonth.getFullYear();
+    const month = String(currentMonth.getMonth() + 1).padStart(2, '0');
+    const dayStr = String(day).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${dayStr}`;
 
     if (multiSelect) {
       // Toggle date selection for recurring activities
@@ -49,8 +51,10 @@ const CustomCalendar = ({
   };
 
   const isSelected = (day: number) => {
-    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    const formattedDate = date.toISOString().split('T')[0];
+    const year = currentMonth.getFullYear();
+    const month = String(currentMonth.getMonth() + 1).padStart(2, '0');
+    const dayStr = String(day).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${dayStr}`;
     return selectedDates.includes(formattedDate);
   };
 
