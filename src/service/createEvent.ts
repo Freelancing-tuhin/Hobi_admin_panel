@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { API_BASE_URL } from 'src/config';
 
+interface InclusionItem {
+  id: string;
+  text: string;
+}
+
 export interface CreateEventPayload {
   title: string;
   category: string;
@@ -18,6 +23,8 @@ export interface CreateEventPayload {
   supportingImages?: string[];  // Array of Cloudinary URLs
   isTicketed: boolean;
   tickets?: any;
+  inclusions?: InclusionItem[];  // What's included
+  exclusions?: InclusionItem[];  // What's not included
   organizerId: string;
 }
 
@@ -50,6 +57,16 @@ export const createEvent = async (eventData: CreateEventPayload): Promise<void> 
     // Send supporting images as JSON array of URLs
     if (eventData.supportingImages && eventData.supportingImages.length > 0) {
       formData.append('supportingImages', JSON.stringify(eventData.supportingImages));
+    }
+
+    // Send inclusions as JSON array
+    if (eventData.inclusions && eventData.inclusions.length > 0) {
+      formData.append('inclusions', JSON.stringify(eventData.inclusions));
+    }
+
+    // Send exclusions as JSON array
+    if (eventData.exclusions && eventData.exclusions.length > 0) {
+      formData.append('exclusions', JSON.stringify(eventData.exclusions));
     }
 
     formData.append('organizerId', eventData.organizerId);

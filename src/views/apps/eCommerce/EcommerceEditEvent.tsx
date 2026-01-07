@@ -5,6 +5,7 @@ import Status from 'src/components/apps/ecommerce/addProduct/Status';
 import SupportingImages from 'src/components/apps/ecommerce/addProduct/SupportingImages';
 import EditEventSchedule from 'src/components/apps/ecommerce/editProduct/EditEventSchedule';
 import Thumbnail from 'src/components/apps/ecommerce/editProduct/Thumbnail';
+import Inclusions from 'src/components/apps/ecommerce/addProduct/Inclusions';
 import BreadcrumbComp from 'src/layouts/full/shared/breadcrumb/BreadcrumbComp';
 import { Button } from 'flowbite-react';
 import { useContext, useEffect, useState } from 'react';
@@ -35,8 +36,9 @@ const STEPS = [
     { id: 1, title: 'Basic Info', icon: 'tabler:file-description' },
     { id: 2, title: 'Date & Time', icon: 'tabler:calendar-event' },
     { id: 3, title: 'Category', icon: 'tabler:category' },
-    { id: 4, title: 'Media', icon: 'tabler:photo' },
-    { id: 5, title: 'Pricing', icon: 'tabler:tag' },
+    { id: 4, title: 'Inclusions', icon: 'tabler:list-check' },
+    { id: 5, title: 'Media', icon: 'tabler:photo' },
+    { id: 6, title: 'Pricing', icon: 'tabler:tag' },
 ];
 
 const EditEvent = () => {
@@ -60,6 +62,8 @@ const EditEvent = () => {
         description: '',
         isTicketed: true,
         tickets: [],
+        inclusions: [] as { id: string; text: string }[],
+        exclusions: [] as { id: string; text: string }[],
         organizerId: user?._id,
     });
     const navigate = useNavigate();
@@ -98,6 +102,8 @@ const EditEvent = () => {
                         description: event.description || '',
                         isTicketed: event.isTicketed ?? true,
                         tickets: event.tickets || [],
+                        inclusions: event.inclusions || [],
+                        exclusions: event.exclusions || [],
                         organizerId: event.organizerId?._id || user?._id,
                     });
 
@@ -170,15 +176,18 @@ const EditEvent = () => {
                 }
                 return true;
             case 4:
+                // Inclusions step - optional, no validation required
+                return true;
+            case 5:
                 // For edit, banner is optional if already exists
                 if (!bannerFile && !banner) {
-                    setStepErrors({ ...stepErrors, 4: 'Please upload a banner image' });
+                    setStepErrors({ ...stepErrors, 5: 'Please upload a banner image' });
                     return false;
                 }
                 return true;
-            case 5:
+            case 6:
                 if (eventData.isTicketed && eventData.tickets.length === 0) {
-                    setStepErrors({ ...stepErrors, 5: 'Please add at least one ticket' });
+                    setStepErrors({ ...stepErrors, 6: 'Please add at least one ticket' });
                     return false;
                 }
                 return true;
@@ -237,6 +246,8 @@ const EditEvent = () => {
                 description: eventData.description,
                 isTicketed: eventData.isTicketed,
                 tickets: eventData.tickets,
+                inclusions: eventData.inclusions,
+                exclusions: eventData.exclusions,
                 supportingImages: supportingImages,
             };
 
@@ -280,6 +291,12 @@ const EditEvent = () => {
                 );
             case 4:
                 return (
+                    <div className="max-w-5xl mx-auto">
+                        <Inclusions eventData={eventData} setEventData={setEventData} />
+                    </div>
+                );
+            case 5:
+                return (
                     <div className="max-w-2xl mx-auto">
                         <Thumbnail onBannerChange={handleBannerChange} setBanner={setBanner} banner={banner} />
                         <SupportingImages
@@ -288,7 +305,7 @@ const EditEvent = () => {
                         />
                     </div>
                 );
-            case 5:
+            case 6:
                 return (
                     <Pricing eventData={eventData} setEventData={setEventData} />
                 );

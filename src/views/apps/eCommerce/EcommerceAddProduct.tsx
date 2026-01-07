@@ -5,6 +5,7 @@ import Status from 'src/components/apps/ecommerce/addProduct/Status';
 import Variation from 'src/components/apps/ecommerce/addProduct/Variation';
 import SupportingImages from 'src/components/apps/ecommerce/addProduct/SupportingImages';
 import Thumbnail from 'src/components/apps/ecommerce/editProduct/Thumbnail';
+import Inclusions from 'src/components/apps/ecommerce/addProduct/Inclusions';
 import BreadcrumbComp from 'src/layouts/full/shared/breadcrumb/BreadcrumbComp';
 import { Button } from 'flowbite-react';
 import { useContext, useState } from 'react';
@@ -30,8 +31,9 @@ const STEPS = [
   { id: 1, title: 'Basic Info', icon: 'tabler:file-description' },
   { id: 2, title: 'Date & Time', icon: 'tabler:calendar-event' },
   { id: 3, title: 'Category', icon: 'tabler:category' },
-  { id: 4, title: 'Media', icon: 'tabler:photo' },
-  { id: 5, title: 'Pricing', icon: 'tabler:tag' },
+  { id: 4, title: 'Inclusions', icon: 'tabler:list-check' },
+  { id: 5, title: 'Media', icon: 'tabler:photo' },
+  { id: 6, title: 'Pricing', icon: 'tabler:tag' },
 ];
 
 const AddProduct = () => {
@@ -53,6 +55,8 @@ const AddProduct = () => {
     description: '',
     isTicketed: true,
     tickets: [],
+    inclusions: [] as { id: string; text: string }[],
+    exclusions: [] as { id: string; text: string }[],
     organizerId: user?._id,
   });
   const navigate = useNavigate();
@@ -114,14 +118,17 @@ const AddProduct = () => {
         }
         return true;
       case 4:
+        // Inclusions step - optional, no validation required
+        return true;
+      case 5:
         if (!bannerFile) {
-          setStepErrors({ ...stepErrors, 4: 'Please upload a banner image' });
+          setStepErrors({ ...stepErrors, 5: 'Please upload a banner image' });
           return false;
         }
         return true;
-      case 5:
+      case 6:
         if (eventData.isTicketed && eventData.tickets.length === 0) {
-          setStepErrors({ ...stepErrors, 5: 'Please add at least one ticket' });
+          setStepErrors({ ...stepErrors, 6: 'Please add at least one ticket' });
           return false;
         }
         return true;
@@ -161,7 +168,7 @@ const AddProduct = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateStep(4)) {
+    if (!validateStep(5)) {
       return;
     }
 
@@ -213,6 +220,12 @@ const AddProduct = () => {
         );
       case 4:
         return (
+          <div className="max-xl mx-auto">
+            <Inclusions eventData={eventData} setEventData={setEventData} />
+          </div>
+        );
+      case 5:
+        return (
           <div className="max-w-2xl mx-auto">
             <Thumbnail onBannerChange={handleBannerChange} setBanner={setBanner} banner={banner} />
             <SupportingImages
@@ -221,7 +234,7 @@ const AddProduct = () => {
             />
           </div>
         );
-      case 5:
+      case 6:
         return (
           <Pricing eventData={eventData} setEventData={setEventData} />
         );

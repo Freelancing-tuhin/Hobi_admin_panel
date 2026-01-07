@@ -406,8 +406,8 @@ const Wallet = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {transactions.map((transaction) => {
-                                            const style = getTransactionStyle(transaction.type, transaction.status);
+                                        {transactions.map((transaction: any) => {
+                                            const style = getTransactionStyle(transaction.type, transaction.withdrawalStatus);
                                             return (
                                                 <tr
                                                     key={transaction._id}
@@ -435,13 +435,13 @@ const Wallet = () => {
                                                             {formatDate(transaction.createdAt)}
                                                         </p>
                                                     </td>
-                                                    <td className="py-4 px-4">{getStatusBadge(transaction.status)}</td>
+                                                    <td className="py-4 px-4">{getStatusBadge(transaction.withdrawalStatus)}</td>
                                                     <td className="py-4 px-4 text-right">
                                                         <span
-                                                            className={`font-bold text-base ${transaction.type === 'credit' ? 'text-emerald-500' : 'text-gray-800 dark:text-white'
+                                                            className={`font-bold text-base ${transaction.withdrawalStatus === 'completed' ? 'text-emerald-500' : 'text-gray-800 dark:text-white'
                                                                 }`}
                                                         >
-                                                            {transaction.type === 'credit' ? '+' : '-'}
+                                                            {transaction.withdrawalStatus === 'completed' ? '+' : '-'}
                                                             {formatCurrency(transaction.amount)}
                                                         </span>
                                                     </td>
